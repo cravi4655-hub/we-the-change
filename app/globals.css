@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
+/* Design tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette */
+  --color-primary: #B3202E; /* primary */
+  --color-coral: #F28B82;   /* coral */
+  --color-teal: #008080;    /* teal */
+  --color-mustard: #FFD166; /* mustard */
+
+  /* Surfaces & text */
+  --color-bg: #FBE9E7;      /* bg */
+  --color-bg-alt: #FDF6F0;  /* bgAlt */
+  --color-text: #333333;    /* text */
+  --color-muted: #666666;   /* muted */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Map tokens to Tailwind color names */
+  --color-primary: var(--color-primary);
+  --color-coral: var(--color-coral);
+  --color-teal: var(--color-teal);
+  --color-mustard: var(--color-mustard);
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-text: var(--color-text);
+  --color-muted: var(--color-muted);
+
+  /* Fonts from next/font */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html, body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+}
+
+/* Masonry helpers for StoriesGrid */
+.masonry { column-gap: 1.5rem; }
+@media (min-width: 768px) { .masonry { column-count: 2; } }
+@media (min-width: 1024px) { .masonry { column-count: 3; } }
+.masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }

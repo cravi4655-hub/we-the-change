@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { db } from '../utils/database';
 
 interface VolunteerFormProps {
   isOpen: boolean;
@@ -21,6 +22,9 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
     skills: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const volunteerRoles = [
     'Field Volunteer',
     'Content Creator', 
@@ -29,12 +33,48 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
     'Other'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle volunteer application submission
-    console.log('Volunteer application submitted:', formData);
-    alert('Thank you for your interest! We will contact you soon.');
-    onClose();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Save to database
+      const success = await db.saveVolunteerApplication({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        role: formData.role,
+        experience: formData.experience + ' | Age: ' + formData.age + ' | Skills: ' + formData.skills,
+        availability: formData.availability,
+        motivation: formData.motivation
+      });
+
+      if (success) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          age: '',
+          role: '',
+          experience: '',
+          availability: '',
+          motivation: '',
+          skills: ''
+        });
+        // Close form after 2 seconds
+        setTimeout(() => onClose(), 2000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error saving volunteer application:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -57,6 +97,19 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
           </button>
         </div>
 
+        {/* Success/Error Messages */}
+        {submitStatus === 'success' && (
+          <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            ✅ Thank you for your application! We will contact you soon.
+          </div>
+        )}
+        
+        {submitStatus === 'error' && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">  
+            ❌ There was an error submitting your application. Please try again.
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,9 +120,10 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
               <input
                 type="text"
                 required
+                disabled={isSubmitting}
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full p-3 border border-muted/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="w-full p-3 border border-muted/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:bg-gray-100"
               />
             </div>
 
@@ -202,9 +256,10 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 px-6 bg-coral text-white rounded-lg font-semibold hover:bg-coral/90 transition-colors"
+              disabled={isSubmitting}
+              className="flex-1 py-3 px-6 bg-coral text-white rounded-lg font-semibold hover:bg-coral/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit Application
+              {isSubmitting ? 'Submitting...' : 'Submit Application'}
             </button>
           </div>
         </form>

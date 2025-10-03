@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   ChartBarIcon, 
   PencilIcon, 
@@ -10,8 +10,12 @@ import {
   DocumentTextIcon,
   CogIcon,
   EyeIcon,
-  HomeIcon
+  HomeIcon,
+  DatabaseIcon,
+  InboxIcon,
+  CurrencyRupeeIcon
 } from '@heroicons/react/24/outline';
+import { db } from '../utils/database';
 import { Link } from 'react-router-dom';
 
 interface AdminStats {
@@ -73,6 +77,12 @@ export default function AdminDashboard() {
       title: 'Analytics',
       icon: EyeIcon,
       description: 'Website performance & insights'
+    },
+    {
+      id: 'database',
+      title: 'Database',
+      icon: DatabaseIcon,
+      description: 'Manage form submissions & data'
     },
     {
       id: 'settings',
@@ -192,6 +202,7 @@ export default function AdminDashboard() {
             {activeTab === 'events' && <EventsEditor />}
             {activeTab === 'gallery' && <GalleryEditor />}
             {activeTab === 'analytics' && <AnalyticsEditor />}
+            {activeTab === 'database' && <DatabaseManager />}
             {activeTab === 'settings' && <SettingsEditor />}
           </div>
         </div>
@@ -1199,6 +1210,383 @@ function AnalyticsEditor() {
   );
 }
 
+// Database Manager Component
+function DatabaseManager() {
+  const [activeSubTab, setActiveSubTab] = useState('contacts');
+  const [contactSubmissions, setContactSubmissions] = useState<any[]>([]);
+  const [volunteerApplications, setVolunteerApplications] = useState<any[]>([]);
+  const [donationRecords, setDonationRecords] = useState<any[]>([]);
+  const [newsletterSignups, setNewsletterSignups] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const subTabs = [
+    { id: 'contacts', title: 'Contact Forms', icon: InboxIcon, count: contactSubmissions.length },
+    { id: 'volunteers', title: 'Volunteer Applications', icon: UserGroupIcon, count: volunteerApplications.length },
+    { id: 'donations', title: 'Donations', icon: CurrencyRupeeIcon, count: donationRecords.length },
+    { id: 'newsletter', title: 'Newsletter', icon: InboxIcon, count: newsletterSignups.length }
+  ];
+
+  const loadData = async (type: string) => {
+    setIsLoading(true);
+    try {
+      switch (type) {
+        case 'contacts':
+          const contacts = await db.getContactSubmissions();
+          setContactSubmissions(contacts);
+          break;
+        case 'volunteers':
+          const volunteers = await db.getVolunteerApplications();
+          setVolunteerApplications(volunteers);
+          break;
+        case 'donations':
+          const donations = await db.getDonations();
+          setDonationRecords(donations);
+          break;
+        case 'newsletter':
+          const newsletter = await db.getNewsletterSignups();
+          setNewsletterSignups(newsletter);
+          break;
+      }
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    loadData(activeSubTab);
+  }, [activeSubTab]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-900">Database Management</h2>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => loadData(activeSubTab)}
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:opacity-90 text-sm"
+          >
+            Refresh Data
+          </button>
+          <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90 text-sm">
+            Export All Data
+          </button>
+        </div>
+      </div>
+
+      {/* Sub Navigation */}
+      <div className="bg-white rounded-lg shadow border-b border-gray-200">
+        <nav className="flex overflow-x-auto space-x-4 px-6">
+          {subTabs.map((subTab) => (
+            <button
+              key={subTab.id}
+              onClick={() => setActiveSubTab(subTab.id)}
+              className={`py-4 px-3 border-b-2 font-medium text-sm whitespace-nowrap ${
+                activeSubTab === subTab.id
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <subTab.icon className="w-5 h-5" />
+                {subTab.title}
+                <span className={`px-2 py-1 rounded-full text-xs ${
+                  activeSubTab === subTab.id 
+                    ? 'bg-primary/10 text-primary' 
+                    : 'bg-gray-100 text-gray-600'
+                }`}>
+                  {subTab.count}
+                </span>
+              </div>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Content */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="p-6">
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading data...</p>
+            </div>
+          ) : (
+            <>
+              {activeSubTab === 'contacts' && <ContactSubmissionsTable data={contactSubmissions} />}
+              {activeSubTab === 'volunteers' && <VolunteerApplicationsTable data={volunteerApplications} />}
+              {activeSubTab === 'donations' && <DonationsTable data={donationRecords} />}
+              {activeSubTab === 'newsletter' && <NewsletterTable data={newsletterSignups} />}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Contact Submissions Table Component
+function ContactSubmissionsTable({ data }: { data: any[] }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-900">Contact Form Submissions</h3>
+        <div className="flex gap-2">
+          <button className="text-sm text-gray-600 hover:text-gray-900">
+            Mark All as Read
+          </button>
+          <button className="text-sm text-gray-600 hover:text-gray-900">
+            Delete All
+          </button>
+        </div>
+      </div>
+
+      {data.length === 0 ? (
+        <div className="text-center py-12">
+          <InboxIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500">No contact submissions yet</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data.map((submission, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {submission.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {submission.email}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    <div className="max-w-xs truncate">{submission.subject}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(submission.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-primary hover:text-primary/80 mr-3">
+                      View
+                    </button>
+                    <button className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Volunteer Applications Table Component
+function VolunteerApplicationsTable({ data }: { data: any[] }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-900">Volunteer Applications</h3>
+      </div>
+
+      {data.length === 0 ? (
+        <div className="text-center py-12">
+          <UserGroupIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500">No volunteer applications yet</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Experience</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data.map((application, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {application.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {application.email}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {application.role}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    <div className="max-w-xs truncate">{application.experience}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(application.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-primary hover:text-primary/80 mr-3">
+                      View
+                    </button>
+                    <button className="text-green-600 hover:text-green-900 mr-3">
+                      Accept
+                    </button>
+                    <button className="text-red-600 hover:text-red-900">
+                      Decline
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Donations Table Component
+function DonationsTable({ data }: { data: any[] }) {
+  const totalAmount = data.reduce((sum, donation) => sum + (donation.amount || 0), 0);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">Donation Records</h3>
+          <p className="text-sm text-gray-600">Total Amount: ₹{totalAmount.toLocaleString()}</p>
+        </div>
+      </div>
+
+      {data.length === 0 ? (
+        <div className="text-center py-12">
+          <CurrencyRupeeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500">No donations yet</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donor</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data.map((donation, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {donation.donor_name}
+                    <br />
+                    <span className="text-xs text-gray-500">{donation.donor_email}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">
+                    ₹{donation.amount?.toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px- inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      donation.status === 'completed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : donation.status === 'pending'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {donation.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div className="max-w-xs truncate">{donation.razorpay_payment_id}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(donation.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-primary hover:text-primary/80 mr-3">
+                      View
+                    </button>
+                    <button className="text-green-600 hover:text-green-900">
+                      Receipt
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Newsletter Table Component
+function NewsletterTable({ data }: { data: any[] }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-900">Newsletter Subscriptions</h3>
+        <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+          Send Newsletter
+        </button>
+      </div>
+
+      {data.length === 0 ? (
+        <div className="text-center py-12">
+          <InboxIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500">No newsletter subscriptions yet</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data.map((signup, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {signup.email}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(signup.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-blue-600 hover:text-blue-900 mr-3">
+                      Email
+                    </button>
+                    <button className="text-red-600 hover:text-red-900">
+                      Unsubscribe
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Settings Editor Component
 function SettingsEditor() {
   return (
@@ -1284,7 +1672,7 @@ function SettingsEditor() {
             />
           </div>
         </div>
-        <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+        <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">  
           Update Payment Settings
         </button>
       </div>

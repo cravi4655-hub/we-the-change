@@ -42,7 +42,7 @@ export default function AdminDashboard() {
       id: 'homepage',
       title: 'Homepage',
       icon: PencilIcon,
-      description: 'Edit homepage content'
+      description: 'Edit homepage content & slider'
     },
     {
       id: 'programs',
@@ -67,6 +67,12 @@ export default function AdminDashboard() {
       title: 'Gallery',
       icon: PhotoIcon,
       description: 'Upload and manage images'
+    },
+    {
+      id: 'analytics',
+      title: 'Analytics',
+      icon: EyeIcon,
+      description: 'Website performance & insights'
     },
     {
       id: 'settings',
@@ -185,6 +191,7 @@ export default function AdminDashboard() {
             {activeTab === 'stories' && <StoriesEditor />}
             {activeTab === 'events' && <EventsEditor />}
             {activeTab === 'gallery' && <GalleryEditor />}
+            {activeTab === 'analytics' && <AnalyticsEditor />}
             {activeTab === 'settings' && <SettingsEditor />}
           </div>
         </div>
@@ -240,54 +247,338 @@ function DashboardContent() {
   );
 }
 
-// Homepage Editor Component
+// Enhanced Homepage Editor Component with Advanced Image Management
 function HomepageEditor() {
   const [sliderImages, setSliderImages] = useState([
-    { id: 1, caption: 'Empowering women through education', active: true },
-    { id: 2, caption: 'Community workshops making a difference', active: true },
-    { id: 3, caption: 'Sustainable menstrual health solutions', active: true }
+    { 
+      id: 1, 
+      caption: 'Empowering women through education', 
+      active: true,
+      imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800',
+      altText: 'Women empowerment education workshop',
+      order: 1
+    },
+    { 
+      id: 2, 
+      caption: 'Community workshops making a difference', 
+      active: true,
+      imageUrl: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800',
+      altText: 'Community workshop participants',
+      order: 2
+    },
+    { 
+      id: 3, 
+      caption: 'Sustainable menstrual health solutions', 
+      active: true,
+      imageUrl: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800',
+      altText: 'Sustainable health products',
+      order: 3
+    }
   ]);
 
   const [missionStatement, setMissionStatement] = useState(
     'Empowering women and girls through comprehensive menstrual health education, sustainable hygiene solutions, and community-driven initiatives that break taboos and create lasting change.'
   );
 
+  const [imageSource, setImageSource] = useState('unsplash'); // 'unsplash' or 'upload'
+  const [sliderSettings, setSliderSettings] = useState({
+    autoPlayDuration: 5,
+    transitionEffect: 'fade',
+    showNavigation: 'both'
+  });
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-gray-900">Homepage Content Editor</h2>
       
-      {/* Hero Slider */}
+      {/* Image Source Selection */}
       <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Hero Slider Captions</h3>
-        <p className="text-sm text-gray-600 mb-4">Edit the captions for your homepage slider images. Images are fetched automatically from Unsplash.</p>
-        <div className="space-y-4">
-          {sliderImages.map((image, index) => (
-            <div key={image.id} className="p-4 bg-white rounded-lg border">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Slide {index + 1} Caption
-                  </label>
-                  <input
-                    type="text"
-                    value={image.caption}
-                    onChange={(e) => {
-                      const newImages = [...sliderImages];
-                      newImages[index].caption = e.target.value;
-                      setSliderImages(newImages);
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Image caption"
-                  />
-                </div>
-                <button className="text-red-600 hover:text-red-800 mt-6">Remove</button>
-              </div>
-            </div>
-          ))}
-          <button className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary hover:text-primary">
-            + Add New Slide
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Image Source</h3>
+        <div className="flex gap-4 mb-4">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="imageSource"
+              value="unsplash"
+              checked={imageSource === 'unsplash'}
+              onChange={(e) => setImageSource(e.target.value)}
+              className="mr-2"
+            />
+            <span className="text-gray-700">Unsplash (Automatic)</span>
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="imageSource"
+              value="upload"
+              checked={imageSource === 'upload'}
+              onChange={(e) => setImageSource(e.target.value)}
+              className="mr-2"
+            />
+            <span className="text-gray-700">Upload Custom Images</span>
+          </label>
+        </div>
+        <p className="text-sm text-gray-600">
+          {imageSource === 'unsplash' 
+            ? 'Images are automatically fetched from Unsplash based on your keywords. You can customize captions and alt text.'
+            : 'Upload your own images for complete control over the slider content.'
+          }
+        </p>
+      </div>
+
+      {/* Hero Slider Management */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">Hero Slider Management</h3>
+          <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+            Preview Slider
           </button>
         </div>
+        
+        {imageSource === 'unsplash' ? (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Edit captions and alt text for your homepage slider. Images are fetched automatically from Unsplash.
+            </p>
+            
+            {sliderImages.map((image, index) => (
+              <div key={image.id} className="p-4 bg-white rounded-lg border">
+                <div className="flex gap-4">
+                  {/* Image Preview */}
+                  <div className="w-32 h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                    <img 
+                      src={image.imageUrl} 
+                      alt={image.altText}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  {/* Image Details */}
+                  <div className="flex-1 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Caption
+                        </label>
+                        <input
+                          type="text"
+                          value={image.caption}
+                          onChange={(e) => {
+                            const newImages = [...sliderImages];
+                            newImages[index].caption = e.target.value;
+                            setSliderImages(newImages);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                          placeholder="Image caption"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Alt Text
+                        </label>
+                        <input
+                          type="text"
+                          value={image.altText}
+                          onChange={(e) => {
+                            const newImages = [...sliderImages];
+                            newImages[index].altText = e.target.value;
+                            setSliderImages(newImages);
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                          placeholder="Alt text for accessibility"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={image.active}
+                            onChange={(e) => {
+                              const newImages = [...sliderImages];
+                              newImages[index].active = e.target.checked;
+                              setSliderImages(newImages);
+                            }}
+                            className="mr-2"
+                          />
+                          <span className="text-sm text-gray-700">Active</span>
+                        </label>
+                        <span className="text-sm text-gray-500">Order: {image.order}</span>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <button className="text-blue-600 hover:text-blue-800 text-sm">
+                          Refresh Image
+                        </button>
+                        <button className="text-red-600 hover:text-red-800 text-sm">
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            <button className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary hover:text-primary">
+              + Add New Slide
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Upload and manage your custom slider images.
+            </p>
+            
+            {/* Upload Area */}
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+              <PhotoIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600 mb-2">Drag and drop images here, or click to browse</p>
+              <p className="text-sm text-gray-500 mb-4">Supports: JPG, PNG, WebP (Max 5MB per image)</p>
+              <button className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90">
+                Browse Files
+              </button>
+            </div>
+            
+            {/* Uploaded Images */}
+            <div className="space-y-4">
+              {sliderImages.map((image, index) => (
+                <div key={image.id} className="p-4 bg-white rounded-lg border">
+                  <div className="flex gap-4">
+                    <div className="w-32 h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                      <img 
+                        src={image.imageUrl} 
+                        alt={image.altText}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Caption
+                          </label>
+                          <input
+                            type="text"
+                            value={image.caption}
+                            onChange={(e) => {
+                              const newImages = [...sliderImages];
+                              newImages[index].caption = e.target.value;
+                              setSliderImages(newImages);
+                            }}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                            placeholder="Image caption"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Alt Text
+                          </label>
+                          <input
+                            type="text"
+                            value={image.altText}
+                            onChange={(e) => {
+                              const newImages = [...sliderImages];
+                              newImages[index].altText = e.target.value;
+                              setSliderImages(newImages);
+                            }}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                            placeholder="Alt text for accessibility"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <label className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={image.active}
+                              onChange={(e) => {
+                                const newImages = [...sliderImages];
+                                newImages[index].active = e.target.checked;
+                                setSliderImages(newImages);
+                              }}
+                              className="mr-2"
+                            />
+                            <span className="text-sm text-gray-700">Active</span>
+                          </label>
+                          <span className="text-sm text-gray-500">Order: {image.order}</span>
+                        </div>
+                        
+                        <div className="flex gap-2">
+                          <button className="text-blue-600 hover:text-blue-800 text-sm">
+                            Replace Image
+                          </button>
+                          <button className="text-red-600 hover:text-red-800 text-sm">
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <div className="mt-6 flex gap-4">
+          <button className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90">
+            Save Slider Changes
+          </button>
+          <button className="bg-gray-600 text-white px-6 py-2 rounded-md hover:opacity-90">
+            Reset to Default
+          </button>
+        </div>
+      </div>
+
+      {/* Slider Settings */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Slider Settings</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Auto-play Duration (seconds)</label>
+            <input
+              type="number"
+              value={sliderSettings.autoPlayDuration}
+              onChange={(e) => setSliderSettings({...sliderSettings, autoPlayDuration: parseInt(e.target.value)})}
+              min="3"
+              max="10"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Transition Effect</label>
+            <select 
+              value={sliderSettings.transitionEffect}
+              onChange={(e) => setSliderSettings({...sliderSettings, transitionEffect: e.target.value})}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="fade">Fade</option>
+              <option value="slide">Slide</option>
+              <option value="zoom">Zoom</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Show Navigation</label>
+            <select 
+              value={sliderSettings.showNavigation}
+              onChange={(e) => setSliderSettings({...sliderSettings, showNavigation: e.target.value})}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="both">Dots + Arrows</option>
+              <option value="dots">Dots Only</option>
+              <option value="arrows">Arrows Only</option>
+              <option value="none">None</option>
+            </select>
+          </div>
+        </div>
+        <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+          Update Slider Settings
+        </button>
       </div>
 
       {/* Mission Statement */}
@@ -564,40 +855,343 @@ function EventsEditor() {
   );
 }
 
-// Gallery Editor Component
+// Enhanced Gallery Editor Component
 function GalleryEditor() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [galleryImages, setGalleryImages] = useState([
+    { id: 1, url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400', category: 'workshops', caption: 'Community workshop in Mumbai', featured: true },
+    { id: 2, url: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400', category: 'events', caption: 'Health awareness drive', featured: false },
+    { id: 3, url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400', category: 'programs', caption: 'Sustainable products distribution', featured: true },
+    { id: 4, url: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=400', category: 'testimonials', caption: 'Success story from beneficiary', featured: false }
+  ]);
+
+  const categories = [
+    { id: 'all', name: 'All Images', count: galleryImages.length },
+    { id: 'workshops', name: 'Workshops', count: galleryImages.filter(img => img.category === 'workshops').length },
+    { id: 'events', name: 'Events', count: galleryImages.filter(img => img.category === 'events').length },
+    { id: 'programs', name: 'Programs', count: galleryImages.filter(img => img.category === 'programs').length },
+    { id: 'testimonials', name: 'Testimonials', count: galleryImages.filter(img => img.category === 'testimonials').length }
+  ];
+
+  const filteredImages = selectedCategory === 'all' 
+    ? galleryImages 
+    : galleryImages.filter(img => img.category === selectedCategory);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Image Gallery</h2>
-        <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
-          + Upload Images
-        </button>
+        <h2 className="text-xl font-semibold text-gray-900">Image Gallery Management</h2>
+        <div className="flex gap-2">
+          <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:opacity-90">
+            Bulk Actions
+          </button>
+          <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+            + Upload Images
+          </button>
+        </div>
       </div>
       
+      {/* Category Filter */}
+      <div className="bg-white rounded-lg p-4 border">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">Filter by Category</h3>
+        <div className="flex flex-wrap gap-2">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                selectedCategory === category.id
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {category.name} ({category.count})
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Upload Area */}
       <div className="bg-gray-50 rounded-lg p-6">
-        <p className="text-gray-600 mb-4">Upload and manage your gallery images here.</p>
-        
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Upload New Images</h3>
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
           <PhotoIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600 mb-2">Drag and drop images here, or click to browse</p>
-          <p className="text-sm text-gray-500">Supports: JPG, PNG, GIF (Max 5MB per image)</p>
-          <button className="mt-4 bg-primary text-white px-6 py-2 rounded-md hover:opacity-90">
-            Browse Files
+          <p className="text-sm text-gray-500 mb-4">Supports: JPG, PNG, WebP (Max 10MB per image)</p>
+          <div className="flex gap-4 justify-center">
+            <button className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90">
+              Browse Files
+            </button>
+            <button className="bg-gray-600 text-white px-6 py-2 rounded-md hover:opacity-90">
+              From Unsplash
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Grid */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">
+            {selectedCategory === 'all' ? 'All Images' : categories.find(c => c.id === selectedCategory)?.name} 
+            ({filteredImages.length})
+          </h3>
+          <div className="flex gap-2">
+            <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
+              <option>Sort by Date</option>
+              <option>Sort by Name</option>
+              <option>Sort by Size</option>
+            </select>
+            <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:opacity-90 text-sm">
+              Select All
+            </button>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {filteredImages.map((image) => (
+            <div key={image.id} className="relative group bg-white rounded-lg overflow-hidden border">
+              <div className="aspect-square">
+                <img 
+                  src={image.url} 
+                  alt={image.caption}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
+                  <button className="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100">
+                    <EyeIcon className="w-4 h-4" />
+                  </button>
+                  <button className="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100">
+                    <PencilIcon className="w-4 h-4" />
+                  </button>
+                  <button className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600">
+                    ✕
+                  </button>
+                </div>
+              </div>
+              
+              {/* Featured Badge */}
+              {image.featured && (
+                <div className="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  Featured
+                </div>
+              )}
+              
+              {/* Category Badge */}
+              <div className="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                {image.category}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {filteredImages.length === 0 && (
+          <div className="text-center py-12">
+            <PhotoIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">No images found in this category</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Analytics Editor Component
+function AnalyticsEditor() {
+  const [timeRange, setTimeRange] = useState('30d');
+  const [analyticsData] = useState({
+    pageViews: 12543,
+    uniqueVisitors: 8932,
+    bounceRate: 42.3,
+    avgSessionDuration: '2m 34s',
+    topPages: [
+      { page: '/', views: 3456, percentage: 27.5 },
+      { page: '/programs/paint-me-red', views: 2134, percentage: 17.0 },
+      { page: '/about', views: 1876, percentage: 14.9 },
+      { page: '/get-involved', views: 1654, percentage: 13.2 },
+      { page: '/stories', views: 1423, percentage: 11.3 }
+    ],
+    trafficSources: [
+      { source: 'Direct', visitors: 4567, percentage: 51.1 },
+      { source: 'Google Search', visitors: 2134, percentage: 23.9 },
+      { source: 'Social Media', visitors: 1234, percentage: 13.8 },
+      { source: 'Referral', visitors: 997, percentage: 11.2 }
+    ],
+    deviceBreakdown: [
+      { device: 'Mobile', visitors: 5367, percentage: 60.1 },
+      { device: 'Desktop', visitors: 2678, percentage: 30.0 },
+      { device: 'Tablet', visitors: 887, percentage: 9.9 }
+    ]
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-900">Website Analytics</h2>
+        <div className="flex gap-2">
+          <select 
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-md text-sm"
+          >
+            <option value="7d">Last 7 days</option>
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+            <option value="1y">Last year</option>
+          </select>
+          <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90 text-sm">
+            Export Data
           </button>
         </div>
+      </div>
 
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Existing Images</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="relative group">
-                <div className="aspect-square bg-gray-200 rounded-lg"></div>
-                <button className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                  ✕
-                </button>
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Page Views</p>
+              <p className="text-2xl font-bold text-gray-900">{analyticsData.pageViews.toLocaleString()}</p>
+            </div>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <EyeIcon className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+          <p className="text-sm text-green-600 mt-2">+12.5% from last period</p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Unique Visitors</p>
+              <p className="text-2xl font-bold text-gray-900">{analyticsData.uniqueVisitors.toLocaleString()}</p>
+            </div>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <UserGroupIcon className="w-6 h-6 text-green-600" />
+            </div>
+          </div>
+          <p className="text-sm text-green-600 mt-2">+8.3% from last period</p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Bounce Rate</p>
+              <p className="text-2xl font-bold text-gray-900">{analyticsData.bounceRate}%</p>
+            </div>
+            <div className="p-2 bg-yellow-100 rounded-lg">
+              <ChartBarIcon className="w-6 h-6 text-yellow-600" />
+            </div>
+          </div>
+          <p className="text-sm text-red-600 mt-2">+2.1% from last period</p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600">Avg. Session</p>
+              <p className="text-2xl font-bold text-gray-900">{analyticsData.avgSessionDuration}</p>
+            </div>
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <CalendarIcon className="w-6 h-6 text-purple-600" />
+            </div>
+          </div>
+          <p className="text-sm text-green-600 mt-2">+15.2% from last period</p>
+        </div>
+      </div>
+
+      {/* Top Pages */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Pages</h3>
+        <div className="space-y-3">
+          {analyticsData.topPages.map((page, index) => (
+            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-gray-500 w-6">{index + 1}</span>
+                <span className="text-sm text-gray-700">{page.page}</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-primary h-2 rounded-full" 
+                    style={{ width: `${page.percentage}%` }}
+                  ></div>
+                </div>
+                <span className="text-sm font-medium text-gray-900 w-16 text-right">{page.views.toLocaleString()}</span>
+                <span className="text-sm text-gray-500 w-12 text-right">{page.percentage}%</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Traffic Sources & Device Breakdown */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Traffic Sources</h3>
+          <div className="space-y-3">
+            {analyticsData.trafficSources.map((source, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <span className="text-sm text-gray-700">{source.source}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full" 
+                      style={{ width: `${source.percentage}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-900 w-16 text-right">{source.visitors.toLocaleString()}</span>
+                  <span className="text-sm text-gray-500 w-12 text-right">{source.percentage}%</span>
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Device Breakdown</h3>
+          <div className="space-y-3">
+            {analyticsData.deviceBreakdown.map((device, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <span className="text-sm text-gray-700">{device.device}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-500 h-2 rounded-full" 
+                      style={{ width: `${device.percentage}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-900 w-16 text-right">{device.visitors.toLocaleString()}</span>
+                  <span className="text-sm text-gray-500 w-12 text-right">{device.percentage}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Performance Insights */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Insights</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-2">🚀 Page Speed</h4>
+            <p className="text-sm text-gray-600">Average load time: 1.2s</p>
+            <p className="text-xs text-green-600 mt-1">Good performance</p>
+          </div>
+          <div className="bg-white rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-2">📱 Mobile Friendly</h4>
+            <p className="text-sm text-gray-600">Mobile score: 95/100</p>
+            <p className="text-xs text-green-600 mt-1">Excellent</p>
+          </div>
+          <div className="bg-white rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-2">🔍 SEO Score</h4>
+            <p className="text-sm text-gray-600">SEO score: 88/100</p>
+            <p className="text-xs text-green-600 mt-1">Very good</p>
           </div>
         </div>
       </div>

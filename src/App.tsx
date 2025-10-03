@@ -18,6 +18,9 @@ import RedWastePage from '../app/programs/red-waste/page';
 import TrainTheTrainerPage from '../app/programs/train-the-trainer/page';
 import ProjectSachetPage from '../app/programs/project-sachet/page';
 
+// Import Admin Page
+import AdminDashboard from '../app/admin/page';
+
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -92,6 +95,9 @@ export default function App() {
           <Route path="/programs/red-waste" element={<RedWastePage />} />
           <Route path="/programs/train-the-trainer" element={<TrainTheTrainerPage />} />
           <Route path="/programs/project-sachet" element={<ProjectSachetPage />} />
+          
+          {/* Admin Panel */}
+          <Route path="/admin" element={<AdminDashboard />} />
           
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

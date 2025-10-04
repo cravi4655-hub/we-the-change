@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port $PORT",
-    "start": "NODE_ENV=production vite preview --host 0.0..0 --port $PORT",
+    "start": "NODE_ENV=production vite preview --host 0.0.0.0 --port $PORT",
     "lint": "eslint"
   },
   "dependencies": {
@@ -25,7 +25,6 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^9",
-    "react-refresh": "^0.18.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite": "^5.4.20"

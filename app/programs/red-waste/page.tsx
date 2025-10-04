@@ -69,7 +69,9 @@ export default function RedWastePage() {
                   Learn More
                 </Link>
                 
-                <DonateButton className="inline-flex items-center justify-center bg-bg-alt text-teal border-2 border-teal/30 rounded-lg px-8 py-4 font-semibold text-lg hover:bg-teal/5 hover:border-teal/50 transition-all duration-200">
+                <DonateButton 
+                  amount={2000}
+                  className="inline-flex items-center justify-center bg-bg-alt text-teal border-2 border-teal/30 rounded-lg px-8 py-4 font-semibold text-lg hover:bg-teal/5 hover:border-teal/50 transition-all duration-200">
                   Support This Program
                 </DonateButton>
               </motion.div>
@@ -253,7 +255,9 @@ export default function RedWastePage() {
               >
                 Get Involved
               </Link>
-              <DonateButton className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/90 transition-colors duration-200">
+              <DonateButton 
+                amount={2000}
+                className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/90 transition-colors duration-200">
                 Support This Program
               </DonateButton>
             </div>

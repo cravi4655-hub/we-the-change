@@ -1,8 +1,10 @@
+// Updated app/contact/page.tsx
 'use client';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import DonateButton from '../components/DonateButton';
+import { db } from '../utils/database';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -14,11 +16,44 @@ export default function ContactPage() {
     interest: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission will be handled later with email integration
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Save to database
+      const success = await db.saveContactSubmission({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        subject: formData.subject,
+        message: formData.message
+      });
+
+      if (success) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+          interest: ''
+        });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error saving contact submission:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -93,7 +128,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-primary mb-1">Email</h3>
-                    <p className="text-gray-700">farheen@wethechangeindia.org</p>
+                  <p className="text-gray-700">farheen@wethechangeindia.org</p>
                   </div>
                 </div>
 
@@ -131,6 +166,19 @@ export default function ContactPage() {
               <div className="bg-white rounded-2xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-primary mb-6">Send us a Message</h2>
                 
+                {/* Success/Error Messages */}
+                {submitStatus === 'success' && (
+                  <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                    ✅ Thank you for your message! We will get back to you soon.
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                    ❌ There was an error sending your message. Please try again.
+                  </div>
+                )}
+                
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -143,7 +191,8 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                         placeholder="Your full name"
                       />
                     </div>
@@ -157,7 +206,8 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                         placeholder="your.email@example.com"
                       />
                     </div>
@@ -173,7 +223,8 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                         placeholder="+91 98765 43210"
                       />
                     </div>
@@ -185,7 +236,8 @@ export default function ContactPage() {
                         name="interest"
                         value={formData.interest}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                       >
                         <option value="">Select an option</option>
                         <option value="volunteer">Volunteer</option>
@@ -208,7 +260,8 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                       placeholder="What is this about?"
                     />
                   </div>
@@ -222,17 +275,19 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                       rows={5}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                    disabled={isSubmitting}
+                    className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Send Message
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
               </div>
@@ -241,6 +296,7 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* Rest of the component remains the same... */}
       {/* Social Media & Follow Us */}
       <section className="py-16 lg:py-24 bg-gray-50">
         <div className="container mx-auto px-6">
@@ -294,7 +350,7 @@ export default function ContactPage() {
               Join us in our mission to break taboos and empower women across India and Africa.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <DonateButton />
+              <DonateButton amount={1000} />
               <button className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors">
                 Become a Volunteer
               </button>
@@ -305,4 +361,3 @@ export default function ContactPage() {
     </div>
   );
 }
-

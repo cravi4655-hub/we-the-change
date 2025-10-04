@@ -70,7 +70,9 @@ export default function TrainTheTrainerPage() {
                   Become a Trainer
                 </Link>
                 
-                <DonateButton className="inline-flex items-center justify-center bg-bg-alt text-yellow border-2 border-yellow/30 rounded-lg px-8 py-4 font-semibold text-lg hover:bg-yellow/5 hover:border-yellow/50 transition-all duration-200">
+                <DonateButton 
+                  amount={2000}
+                  className="inline-flex items-center justify-center bg-bg-alt text-yellow border-2 border-yellow/30 rounded-lg px-8 py-4 font-semibold text-lg hover:bg-yellow/5 hover:border-yellow/50 transition-all duration-200">
                   Support This Program
                 </DonateButton>
               </motion.div>
@@ -253,7 +255,9 @@ export default function TrainTheTrainerPage() {
               >
                 Apply for Training
               </Link>
-              <DonateButton className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/90 transition-colors duration-200">
+              <DonateButton 
+                amount={2000}
+                className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/90 transition-colors duration-200">
                 Support This Program
               </DonateButton>
             </div>

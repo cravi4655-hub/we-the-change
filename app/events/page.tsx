@@ -229,11 +229,11 @@ export default function EventsPage() {
               >
                 Contact Us
               </Link>
-              <DonateButton />
+              <DonateButton amount={1000} />
             </div>
           </motion.div>
-        </div>
-      </section>
+      </div>
+    </section>
     </div>
   );
 }

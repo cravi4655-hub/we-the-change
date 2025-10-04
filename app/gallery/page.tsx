@@ -238,7 +238,7 @@ export default function GalleryPage() {
               <button className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors">
                 Share Your Story
               </button>
-              <DonateButton />
+              <DonateButton amount={1000} />
             </div>
           </motion.div>
         </div>

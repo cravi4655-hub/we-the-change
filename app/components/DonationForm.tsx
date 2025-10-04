@@ -76,7 +76,7 @@ export default function DonationForm({ isOpen, onClose }: DonationFormProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <motion.div
-        className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full max-h-[95vh] overflow-y-auto mx-4 md:mx-0"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}

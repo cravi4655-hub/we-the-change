@@ -34,11 +34,34 @@
 /* Base styles */
 html, body {
   height: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--color-bg);
   color: var(--color-text);
+}
+
+/* Mobile-first touch interactions */
+@media (max-width: 768px) {
+  /* Improved touch targets */
+  button, a, input, textarea {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+  }
+  
+  /* Better form interactions */
+  input, textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Utilities */

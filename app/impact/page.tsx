@@ -396,7 +396,7 @@ export default function ImpactPage() {
               Join us in creating a world where every woman and girl has access to menstrual health education and resources.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <DonateButton />
+              <DonateButton amount={1000} />
               <Link 
                 to="/get-involved" 
                 className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors"

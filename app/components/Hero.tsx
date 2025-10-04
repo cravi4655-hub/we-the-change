@@ -103,19 +103,19 @@ export default function Hero({
               </motion.p>
             </div>
 
-            {/* CTAs */}
+            {/* CTAs - Mobile optimized */}
             <motion.div 
               className="flex flex-col sm:flex-row gap-4"
               variants={itemVariants}
             >
               <Link 
-                href="/contact" 
-                className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20"
+                to="/contact" 
+                className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-6 md:px-8 py-3 md:py-4 font-semibold text-base md:text-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20 touch-manipulation min-h-[44px]"
               >
                 Join the Movement
               </Link>
               
-              <DonateButton className="inline-flex items-center justify-center bg-bg-alt text-primary border-2 border-primary/30 rounded-lg px-8 py-4 font-semibold text-lg hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20">
+              <DonateButton className="inline-flex items-center justify-center bg-bg-alt text-primary border-2 border-primary/30 rounded-lg px-6 md:px-8 py-3 md:py-4 font-semibold text-base md:text-lg hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20 touch-manipulation min-h-[44px]">
                 Donate for Dignity
               </DonateButton>
             </motion.div>

@@ -24,31 +24,46 @@ import AdminDashboard from '../app/admin/page';
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Close mobile menu when route changes
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <div className="antialiased bg-bg text-text font-sans">
-      <header className="w-full bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/60 border-b border-muted/20">
+      <header className="w-full bg-bg/80 backdrop-blur-md supports-[backdrop-filter]:bg-bg/60 border-b border-muted/20 sticky top-0 z-50">
         <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="text-lg sm:text-xl font-semibold text-primary">We The Change</Link>
+          <Link 
+            to="/" 
+            className="text-lg sm:text-xl font-semibold text-primary hover:text-primary/80 transition-colors"
+            onClick={closeMobileMenu}
+          >
+            We The Change
+          </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6 text-sm">
-            <Link to="/" className="hover:text-primary">Home</Link>
-            <Link to="/about" className="hover:text-primary">About</Link>
-            <Link to="/impact" className="hover:text-primary">Impact</Link>
-            <Link to="/get-involved" className="hover:text-primary">Get Involved</Link>
-            <Link to="/events" className="hover:text-primary">Events</Link>
-            <Link to="/gallery" className="hover:text-primary">Gallery</Link>
-            <Link to="/stories" className="hover:text-primary">Stories</Link>
-            <Link to="/contact" className="hover:text-primary">Contact</Link>
+            <Link to="/" className="hover:text-primary transition-colors duration-200">Home</Link>
+            <Link to="/about" className="hover:text-primary transition-colors duration-200">About</Link>
+            <Link to="/impact" className="hover:text-primary transition-colors duration-200">Impact</Link>
+            <Link to="/get-involved" className="hover:text-primary transition-colors duration-200">Get Involved</Link>
+            <Link to="/events" className="hover:text-primary transition-colors duration-200">Events</Link>
+            <Link to="/gallery" className="hover:text-primary transition-colors duration-200">Gallery</Link>
+            <Link to="/stories" className="hover:text-primary transition-colors duration-200">Stories</Link>
+            <Link to="/contact" className="hover:text-primary transition-colors duration-200">Contact</Link>
           </div>
           
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-2">
-            <DonateButton className="text-xs" amount={500}>Donate</DonateButton>
+          {/* Mobile Menu Button & Donate */}
+          <div className="md:hidden flex items-center gap-3">
+            <DonateButton 
+              className="text-xs px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors" 
+              amount={500}
+            >
+              Donate
+            </DonateButton>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-primary hover:text-primary/80"
+              className="p-3 text-primary hover:text-primary/80 hover:bg-primary/10 rounded-lg transition-all duration-200 touch-manipulation"
               aria-label="Toggle mobile menu"
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? (
                 <XMarkIcon className="w-6 h-6" />
@@ -58,21 +73,85 @@ export default function App() {
             </button>
           </div>
           
-          <DonateButton className="hidden md:inline-flex text-sm" amount={500}>Donate Now</DonateButton>
+          <DonateButton 
+            className="hidden md:inline-flex text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors" 
+            amount={500}
+          >
+            Donate Now
+          </DonateButton>
         </nav>
         
-        {/* Mobile Menu */}
+        {/* Mobile Menu with better animations */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-bg/95 backdrop-blur border-t border-muted/20">
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
-              <Link to="/" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-              <Link to="/about" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-              <Link to="/impact" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Impact</Link>
-              <Link to="/get-involved" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Get Involved</Link>
-              <Link to="/events" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Events</Link>
-              <Link to="/gallery" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Gallery</Link>
-              <Link to="/stories" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Stories</Link>
-              <Link to="/contact" className="hover:text-primary py-2" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+          <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-muted/20 shadow-lg animate-in slide-in-from-top duration-300">
+            <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/about" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                About
+              </Link>
+              <Link 
+                to="/impact" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Impact
+              </Link>
+              <Link 
+                to="/get-involved" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Get Involved
+              </Link>
+              <Link 
+                to="/events" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Events
+              </Link>
+              <Link 
+                to="/gallery" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Gallery
+              </Link>
+              <Link 
+                to="/stories" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Stories
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                onClick={closeMobileMenu}
+              >
+                Contact
+              </Link>
+              
+              {/* Mobile Donate CTA */}
+              <div className="pt-4 mt-4 border-t border-muted/20">
+                <DonateButton 
+                  className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200" 
+                  amount={500}
+                  onClick={closeMobileMenu}
+                >
+                  Support Our Mission
+                </DonateButton>
+              </div>
             </div>
           </div>
         )}
@@ -104,15 +183,80 @@ export default function App() {
       </main>
 
       <footer className="w-full border-t border-muted/20 bg-bg-alt">
-        <div className="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center">
-          <p>© {new Date().getFullYear()} We The Change. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link to="/about" className="hover:text-primary">About</Link>
-            <Link to="/impact" className="hover:text-primary">Impact</Link>
-            <Link to="/events" className="hover:text-primary">Events</Link>
-            <Link to="/gallery" className="hover:text-primary">Gallery</Link>
-            <Link to="/stories" className="hover:text-primary">Stories</Link>
-            <Link to="/contact" className="hover:text-primary">Contact</Link>
+        <div className="container mx-auto px-6 py-8 flex flex-col md:flex-col space-y-6 text-center md:text-left">
+          {/* Main footer content */}
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div>
+              <p className="text-sm text-muted mb-2">
+                © {new Date().getFullYear()} We The Change. All rights reserved.
+              </p>
+              <p className="text-sm text-muted">
+                Empowering women across India and Africa.
+              </p>
+            </div>
+            
+            {/* Mobile footer CTA */}
+            <div className="md:hidden">
+              <DonateButton 
+                className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors w-full" 
+                amount={500}
+              >
+                Support Our Mission
+              </DonateButton>
+            </div>
+          </div>
+
+          {/* Footer links with better mobile layout */}
+          <div className="grid grid-cols-2 md:flex gap-4 md:gap-6 text-sm">
+            <Link 
+              to="/about" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              About Us
+            </Link>
+            <Link 
+              to="/impact" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              Our Impact
+            </Link>
+            <Link 
+              to="/events" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              Events
+            </Link>
+            <Link 
+              to="/gallery" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              Gallery
+            </Link>
+            <Link 
+              to="/stories" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              Stories
+            </Link>
+            <Link 
+              to="/contact" 
+              className="hover:text-primary transition-colors py-2 md:py-0" 
+              onClick={closeMobileMenu}
+            >
+              Contact Us
+            </Link>
+          </div>
+
+          {/* Additional footer info */}
+          <div className="text-center md:text-left pt-6 border-t border-muted/20">
+            <p className="text-xs text-muted">
+              Registered as a Section 8 Company in India and trusted by communities across multiple states.
+            </p>
           </div>
         </div>
       </footer>

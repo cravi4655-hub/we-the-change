@@ -11,7 +11,7 @@ import {
   CogIcon,
   EyeIcon,
   HomeIcon,
-  DatabaseIcon,
+  ServerIcon,
   InboxIcon,
   CurrencyRupeeIcon
 } from '@heroicons/react/24/outline';
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
     {
       id: 'database',
       title: 'Database',
-      icon: DatabaseIcon,
+      icon: ServerIcon,
       description: 'Manage form submissions & data'
     },
     {

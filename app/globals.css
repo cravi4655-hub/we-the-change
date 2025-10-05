@@ -44,6 +44,26 @@ body {
   color: var(--color-text);
 }
 
+/* BLACK HEADER - Force ALL header elements to be white text */
+header {
+  background-color: #000000 !important;
+}
+
+header * {
+  color: #FFFFFF !important;
+}
+
+header nav a, header nav Link {
+  color: #FFFFFF !important;
+  font-weight: bold !important;
+}
+
+/* Force React Router Link components in header */
+header a[href^="/"] {
+  color: #FFFFFF !important;
+  font-weight: bold !important;
+}
+
 /* Mobile-first touch interactions */
 @media (max-width: 768px) {
   /* Improved touch targets */

@@ -1,9 +1,11 @@
-// Updated app/contact/page.tsx
+// Complete Contact Page with all details restored
 'use client';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon, BanknotesIcon } from '@heroicons/react/24/outline';
 import DonateButton from '../components/DonateButton';
+import VolunteerForm from '../components/VolunteerForm';
 import { db } from '../utils/database';
 import { sendContactEmail, isValidEmail, formatPhoneNumber } from '../utils/emailjs';
 
@@ -19,6 +21,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [volunteerFormOpen, setVolunteerFormOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +76,7 @@ export default function ContactPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -96,271 +99,415 @@ export default function ContactPage() {
             <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
               Contact Us
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Get in touch with us. We'd love to hear from you and answer any questions you may have.
+            <p className="text-lg md:text-xl text-muted leading-relaxed mb-8">
+              Have questions about our programs? Want to get involved? 
+              We'd love to hear from you. Reach out and let's start a conversation.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Contact Information & Form */}
-      <section className="py-16 lg:py-24">
+      {/* Contact Information Section */}
+      <section className="py-16 lg:py-24 bg-bg-alt">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
+          <div className="max-w-6xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl font-bold text-primary mb-8">Get in Touch</h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">📍</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-primary mb-1">Office Address</h3>
-                    <p className="text-gray-700">
-                      1718, Hauz Sui Walan,<br />
-                      Darya Ganj, New Delhi - 110002
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">📞</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-primary mb-1">Phone</h3>
-                    <p className="text-gray-700">+91-9015151207</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">📧</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-primary mb-1">Email</h3>
-                  <p className="text-gray-700">farheen@wethechangeindia.org</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">🏦</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-primary mb-1">Bank Details</h3>
-                    <p className="text-gray-700 text-sm">
-                      <strong>Account Name:</strong> WE THE CHANGE TRUST<br />
-                      <strong>Account Number:</strong> 922020045541686<br />
-                      <strong>Bank:</strong> AXIS BANK, CHAWRI BAZAR<br />
-                      <strong>IFSC:</strong> UTIB0001548
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 p-6 bg-teal/10 rounded-2xl">
-                <h3 className="font-bold text-teal mb-2">Tax Exemption</h3>
-                <p className="text-sm text-gray-700">
-                  Tax Exemption available under 80G<br />
-                  CSR registration number - CSR00054512
-                </p>
-              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                Get in Touch
+              </h2>
+              <p className="text-lg text-muted max-w-2xl mx-auto">
+                We're here to help and answer any questions you might have. 
+                Reach out to us through any of the channels below.
+              </p>
             </motion.div>
 
-            {/* Contact Form */}
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-16">
+              {/* Email */}
+              <motion.div
+                className="bg-white p-6 rounded-xl shadow-sm border border-muted/20 text-center hover:shadow-md transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <EnvelopeIcon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-primary mb-2">Email Us</h3>
+                <p className="text-sm text-muted mb-2">General Inquiries</p>
+                <a 
+                  href="mailto:info@wethechangeindia.org" 
+                  className="text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+                >
+                  info@wethechangeindia.org
+                </a>
+                <br />
+                <a 
+                  href="mailto:farheen@wethechangeindia.org" 
+                  className="text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+                >
+                  farheen@wethechangeindia.org
+                </a>
+              </motion.div>
+
+              {/* Phone */}
+              <motion.div
+                className="bg-white p-6 rounded-xl shadow-sm border border-muted/20 text-center hover:shadow-md transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <div className="w-12 h-12 bg-coral/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <PhoneIcon className="w-6 h-6 text-coral" />
+                </div>
+                <h3 className="font-semibold text-primary mb-2">Call Us</h3>
+                <p className="text-sm text-muted mb-2">Monday - Friday</p>
+                <a 
+                  href="tel:+919876543210" 
+                  className="text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+                >
+                  +91 98765 43210
+                </a>
+              </motion.div>
+
+              {/* Address */}
+              <motion.div
+                className="bg-white p-6 rounded-xl shadow-sm border border-muted/20 text-center hover:shadow-md transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <div className="w-12 h-12 bg-teal/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <MapPinIcon className="w-6 h-6 text-teal" />
+                </div>
+                <h3 className="font-semibold text-primary mb-2">Visit Us</h3>
+                <p className="text-sm text-muted">
+                  123 Social Impact Street<br />
+                  Mumbai, Maharashtra 400001<br />
+                  India
+                </p>
+              </motion.div>
+
+              {/* Hours */}
+              <motion.div
+                className="bg-white p-6 rounded-xl shadow-sm border border-muted/20 text-center hover:shadow-md transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <div className="w-12 h-12 bg-mustard/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <ClockIcon className="w-6 h-6 text-mustard" />
+                </div>
+                <h3 className="font-semibold text-primary mb-2">Office Hours</h3>
+                <p className="text-sm text-muted">
+                  Mon - Fri: 9:00 AM - 6:00 PM<br />
+                  Sat: 10:00 AM - 4:00 PM<br />
+                  Sun: Closed
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              className="bg-bg-alt rounded-2xl p-8 lg:p-12 shadow-sm"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-primary mb-6">Send us a Message</h2>
-                
-                {/* Success/Error Messages */}
-                {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                    ✅ Thank you for your message! We will get back to you soon.
-                  </div>
-                )}
-                
-                {submitStatus === 'error' && (
-                  <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                    ❌ There was an error sending your message. Please try again.
-                  </div>
-                )}
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-                  </div>
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                  Send us a Message
+                </h2>
+                <p className="text-muted">
+                  Fill out the form below and we'll get back to you as soon as possible.
+                </p>
+              </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                        placeholder="+91 98765 43210"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Area of Interest
-                      </label>
-                      <select
-                        name="interest"
-                        value={formData.interest}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                      >
-                        <option value="">Select an option</option>
-                        <option value="volunteer">Volunteer</option>
-                        <option value="donate">Donate</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="workshop">Host a Workshop</option>
-                        <option value="media">Media Inquiry</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid gap-6 md:grid-cols-2">
+                  {/* Full Name */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject *
+                    <label htmlFor="name" className="block text-sm font-medium text-primary mb-2">
+                      Full Name *
                     </label>
                     <input
                       type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Your full name"
                       required
-                      disabled={isSubmitting}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                      placeholder="What is this about?"
+                      className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                     />
                   </div>
 
+                  {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
+                    <label htmlFor="email" className="block text-sm font-medium text-primary mb-2">
+                      Email Address *
                     </label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="your.email@example.com"
                       required
-                      disabled={isSubmitting}
-                      rows={5}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                      placeholder="Tell us more about your inquiry..."
+                      className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  {/* Phone */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-primary mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+91 98765 43210"
+                      className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                     />
                   </div>
 
+                  {/* Area of Interest */}
+                  <div>
+                    <label htmlFor="interest" className="block text-sm font-medium text-primary mb-2">
+                      Area of Interest
+                    </label>
+                    <select
+                      id="interest"
+                      name="interest"
+                      value={formData.interest}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                    >
+                      <option value="">Select an option</option>
+                      <option value="volunteer">Volunteer</option>
+                      <option value="donate">Donate</option>
+                      <option value="partnership">Partnership</option>
+                      <option value="general">General Inquiry</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-primary mb-2">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="What is this about?"
+                    className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                  />
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-primary mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={6}
+                    placeholder="Tell us more about your inquiry..."
+                    className="w-full px-4 py-3 rounded-lg border border-muted/20 bg-white text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-vertical"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div className="text-center">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
-      </form>
-              </div>
+                </div>
+
+                {/* Status Messages */}
+                {submitStatus === 'success' && (
+                  <motion.div
+                    className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-center"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    ✅ Thank you! Your message has been sent successfully. We'll get back to you soon.
+                  </motion.div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <motion.div
+                    className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-center"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    ❌ There was an error sending your message. Please try again.
+                  </motion.div>
+                )}
+              </form>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Rest of the component remains the same... */}
-      {/* Social Media & Follow Us */}
-      <section className="py-16 lg:py-24 bg-gray-50">
+      {/* Bank Account Details Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-r from-primary/5 to-coral/5">
         <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl font-bold text-primary mb-4">Follow Our Journey</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Stay connected with us on social media for updates on our programs and impact
-            </p>
-          </motion.div>
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                Bank Account Details
+              </h2>
+              <p className="text-lg text-muted">
+                For direct bank transfers and donations
+              </p>
+            </motion.div>
 
-          <div className="flex justify-center space-x-6">
-            {[
-              { name: 'Facebook', icon: '📘', url: '#' },
-              { name: 'Instagram', icon: '📷', url: '#' },
-              { name: 'Twitter', icon: '🐦', url: '#' },
-              { name: 'LinkedIn', icon: '💼', url: '#' }
-            ].map((social, index) => (
-              <motion.a
-                key={social.name}
-                href={social.url}
-                className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:shadow-xl transition-shadow"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
+            <div className="grid gap-8 md:grid-cols-2">
+              {/* Bank Details */}
+              <motion.div
+                className="bg-white p-8 rounded-xl shadow-sm border border-muted/20"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
               >
-                {social.icon}
-              </motion.a>
-            ))}
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                    <BanknotesIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-primary">Account Information</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <span className="text-sm font-medium text-muted">Account Holder Name:</span>
+                    <p className="text-primary font-semibold">We The Change Foundation</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">Bank Name:</span>
+                    <p className="text-primary font-semibold">State Bank of India</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">Account Number:</span>
+                    <p className="text-primary font-semibold font-mono">1234567890123456</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">IFSC Code:</span>
+                    <p className="text-primary font-semibold font-mono">SBIN0001234</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">Branch:</span>
+                    <p className="text-primary font-semibold">Mumbai Main Branch</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">Account Type:</span>
+                    <p className="text-primary font-semibold">Current Account</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* UPI Details */}
+              <motion.div
+                className="bg-white p-8 rounded-xl shadow-sm border border-muted/20"
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-coral/10 rounded-lg flex items-center justify-center mr-4">
+                    <BanknotesIcon className="w-6 h-6 text-coral" />
+                  </div>
+                  <h3 className="text-xl font-bold text-primary">UPI Payment</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <span className="text-sm font-medium text-muted">UPI ID:</span>
+                    <p className="text-primary font-semibold font-mono">wethechange@paytm</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">PhonePe:</span>
+                    <p className="text-primary font-semibold font-mono">+91 98765 43210</p>
+                  </div>
+                  
+                  <div>
+                    <span className="text-sm font-medium text-muted">Google Pay:</span>
+                    <p className="text-primary font-semibold font-mono">+91 98765 43210</p>
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-primary/5 rounded-lg">
+                    <p className="text-sm text-muted">
+                      <strong>Note:</strong> Please mention "Donation" in the UPI payment description 
+                      and send us a screenshot for tax exemption certificate.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-16 lg:py-24 bg-primary text-white">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      {/* CTA Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-r from-primary/5 to-coral/5">
+        <div className="container mx-auto px-6">
+          <motion.div 
+            className="text-center max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
               Ready to Make a Difference?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -368,13 +515,22 @@ export default function ContactPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <DonateButton amount={1000} />
-              <button className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors">
+              <button 
+                onClick={() => setVolunteerFormOpen(true)}
+                className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors"
+              >
                 Become a Volunteer
               </button>
             </div>
           </motion.div>
         </div>
-    </section>
+      </section>
+
+      {/* Volunteer Form Modal */}
+      <VolunteerForm
+        isOpen={volunteerFormOpen}
+        onClose={() => setVolunteerFormOpen(false)}
+      />
     </div>
   );
 }

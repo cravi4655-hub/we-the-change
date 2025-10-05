@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { fetchUnsplashImages } from '../utils/unsplash';
+import DonateButton from './DonateButton';
 
 interface SliderImage {
   id: string;
@@ -161,12 +163,18 @@ export default function ImpactSlider({ className = '' }: ImpactSliderProps) {
                     {impactMessages[currentIndex + 1] || impactMessages[1]}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
-                    <button className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg">
+                    <Link 
+                      to="/contact"
+                      className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg text-center"
+                    >
                       Join the Movement
-                    </button>
-                    <button className="border-2 border-white text-white hover:bg-white hover:text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg">
+                    </Link>
+                    <DonateButton 
+                      className="border-2 border-white text-white hover:bg-white hover:text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg"
+                      amount={500}
+                    >
                       Donate for Dignity
-                    </button>
+                    </DonateButton>
                   </div>
                   
                   {/* Impact Statistics */}

@@ -29,26 +29,31 @@ export default function App() {
 
   return (
     <div className="antialiased bg-bg text-text font-sans">
-      <header className="w-full bg-bg/80 backdrop-blur-md supports-[backdrop-filter]:bg-bg/60 border-b border-muted/20 sticky top-0 z-50">
-        <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <header className="w-full bg-black shadow-sm border-b border-gray-800 sticky top-0 z-50">
+      <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link 
             to="/" 
-            className="text-lg sm:text-xl font-semibold text-primary hover:text-primary/80 transition-colors"
+            className="flex items-center hover:opacity-80 transition-opacity duration-200"
             onClick={closeMobileMenu}
           >
-            We The Change
+            {/* Logo */}
+            <img 
+              src="/logo/logo.png" 
+              alt="We The Change Logo" 
+              className="h-10 md:h-12 w-auto"
+            />
           </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6 text-sm">
-            <Link to="/" className="hover:text-primary transition-colors duration-200">Home</Link>
-            <Link to="/about" className="hover:text-primary transition-colors duration-200">About</Link>
-            <Link to="/impact" className="hover:text-primary transition-colors duration-200">Impact</Link>
-            <Link to="/get-involved" className="hover:text-primary transition-colors duration-200">Get Involved</Link>
-            <Link to="/events" className="hover:text-primary transition-colors duration-200">Events</Link>
-            <Link to="/gallery" className="hover:text-primary transition-colors duration-200">Gallery</Link>
-            <Link to="/stories" className="hover:text-primary transition-colors duration-200">Stories</Link>
-            <Link to="/contact" className="hover:text-primary transition-colors duration-200">Contact</Link>
+            <Link to="/" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Home</Link>
+            <Link to="/about" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>About</Link>
+            <Link to="/impact" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Impact</Link>
+            <Link to="/get-involved" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Get Involved</Link>
+            <Link to="/events" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Events</Link>
+            <Link to="/gallery" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Gallery</Link>
+            <Link to="/stories" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Stories</Link>
+            <Link to="/contact" className="px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200" style={{color: '#FFFFFF', fontWeight: 'bold'}}>Contact</Link>
           </div>
           
           {/* Mobile Menu Button & Donate */}
@@ -61,7 +66,7 @@ export default function App() {
             </DonateButton>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-3 text-primary hover:text-primary/80 hover:bg-primary/10 rounded-lg transition-all duration-200 touch-manipulation"
+              className="p-3 text-white hover:text-white/80 hover:bg-white/10 rounded-lg transition-all duration-200 touch-manipulation"
               aria-label="Toggle mobile menu"
               aria-expanded={isMobileMenuOpen}
             >
@@ -83,71 +88,78 @@ export default function App() {
         
         {/* Mobile Menu with better animations */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-muted/20 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="md:hidden bg-black border-t border-gray-800 shadow-lg animate-in slide-in-from-top duration-300">
             <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
               <Link 
                 to="/" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Home
               </Link>
               <Link 
                 to="/about" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 About
               </Link>
               <Link 
                 to="/impact" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Impact
               </Link>
               <Link 
                 to="/get-involved" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Get Involved
               </Link>
               <Link 
                 to="/events" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Events
               </Link>
               <Link 
                 to="/gallery" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Gallery
               </Link>
               <Link 
                 to="/stories" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Stories
               </Link>
               <Link 
                 to="/contact" 
-                className="text-primary py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors duration-200 text-base font-medium" 
+                className="py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-base"
+                style={{color: '#FFFFFF', fontWeight: 'bold'}} 
                 onClick={closeMobileMenu}
               >
                 Contact
               </Link>
               
               {/* Mobile Donate CTA */}
-              <div className="pt-4 mt-4 border-t border-muted/20">
+              <div className="pt-4 mt-4 border-t border-gray-800">
                 <DonateButton 
                   className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200" 
                   amount={500}
-                  onClick={closeMobileMenu}
                 >
                   Support Our Mission
                 </DonateButton>

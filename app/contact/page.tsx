@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import DonateButton from '../components/DonateButton';
 import { db } from '../utils/database';
+import { sendContactEmail, isValidEmail, formatPhoneNumber } from '../utils/emailjs';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -24,9 +25,16 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Validate email
+    if (!isValidEmail(formData.email)) {
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       // Save to database
-      const success = await db.saveContactSubmission({
+      const dbSuccess = await db.saveContactSubmission({
         name: formData.name,
         email: formData.email,
         phone: formData.phone || undefined,
@@ -34,7 +42,16 @@ export default function ContactPage() {
         message: formData.message
       });
 
-      if (success) {
+      // Send email via EmailJS
+      const emailSuccess = await sendContactEmail({
+        name: formData.name,
+        email: formData.email,
+        phone: formatPhoneNumber(formData.phone),
+        subject: formData.subject,
+        message: formData.message
+      });
+
+      if (dbSuccess && emailSuccess) {
         setSubmitStatus('success');
         // Reset form
         setFormData({
@@ -289,7 +306,7 @@ export default function ContactPage() {
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
-                </form>
+      </form>
               </div>
             </motion.div>
           </div>
@@ -357,7 +374,7 @@ export default function ContactPage() {
             </div>
           </motion.div>
         </div>
-      </section>
+    </section>
     </div>
   );
 }

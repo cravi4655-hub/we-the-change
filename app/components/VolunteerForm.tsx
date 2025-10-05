@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { db } from '../utils/database';
+import { sendVolunteerEmail, isValidEmail } from '../utils/emailjs';
 
 interface VolunteerFormProps {
   isOpen: boolean;
@@ -38,9 +39,16 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Validate email
+    if (!isValidEmail(formData.email)) {
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       // Save to database
-      const success = await db.saveVolunteerApplication({
+      const dbSuccess = await db.saveVolunteerApplication({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -50,7 +58,18 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
         motivation: formData.motivation
       });
 
-      if (success) {
+      // Send email notification via EmailJS
+      const emailSuccess = await sendVolunteerEmail({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        age: formData.age,
+        skills: formData.skills,
+        availability: formData.availability,
+        motivation: formData.motivation
+      });
+
+      if (dbSuccess && emailSuccess) {
         setSubmitStatus('success');
         // Reset form
         setFormData({

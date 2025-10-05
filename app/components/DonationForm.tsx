@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import DonateButton from './DonateButton';
 import { db } from '../utils/database';
+import { sendDonationEmail, isValidEmail } from '../utils/emailjs';
 
 interface DonationFormProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ export default function DonationForm({ isOpen, onClose }: DonationFormProps) {
     try {
       // Save donation record to database
       const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-      const success = await db.saveDonation({
+      const dbSuccess = await db.saveDonation({
         amount: amount,
         donor_name: donorInfo.name,
         donor_email: donorInfo.email,
@@ -41,7 +42,16 @@ export default function DonationForm({ isOpen, onClose }: DonationFormProps) {
         status: 'completed'
       });
 
-      if (success) {
+      // Send email notification via EmailJS
+      const emailSuccess = await sendDonationEmail({
+        donorName: donorInfo.name,
+        donorEmail: donorInfo.email,
+        amount: amount,
+        paymentId: response.razorpay_payment_id,
+        purpose: donorInfo.message || 'General Donation'
+      });
+
+      if (dbSuccess && emailSuccess) {
         setSubmitStatus('success');
         // Reset form
         setDonorInfo({

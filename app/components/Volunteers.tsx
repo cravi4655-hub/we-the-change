@@ -17,14 +17,55 @@ interface VolunteersProps {
 }
 
 const DEFAULT_VOLUNTEERS: VolunteerItem[] = [
-  { id: 'v1', name: 'Asha Singh', role: 'Program Lead', photo: '/window.svg', description: 'Asha drives outreach in rural communities, coordinating workshops and building partnerships with local leaders to ensure sustainable impact across regions.' },
-  { id: 'v2', name: 'Rahul Mehta', role: 'Operations', photo: '/globe.svg', description: 'Rahul manages logistics, procurement, and distribution. His organized approach ensures pads and educational materials reach the last mile reliably.' },
-  { id: 'v3', name: 'Fatima Khan', role: 'Educator', photo: '/file.svg', description: 'Fatima facilitates engaging sessions with adolescents and caregivers, helping normalize conversations and dismantle long-held taboos with empathy.' },
-  { id: 'v4', name: 'Priya Patel', role: 'Counsellor', photo: '/vercel.svg', description: 'Priya offers one-on-one support, connecting beneficiaries to resources while training peer advocates to extend care in their communities.' },
-  { id: 'v5', name: 'Karan Gupta', role: 'Field Coordinator', photo: '/next.svg', description: 'Karan oversees field execution across districts, aligning trainers, schools, and partner NGOs for consistent program quality and monitoring.' },
-  { id: 'v6', name: 'Neha Sharma', role: 'Communications', photo: '/window.svg', description: 'Neha documents stories of change and amplifies voices from the field to inspire action and build a community of supporters.' },
-  { id: 'v7', name: 'Vikram Rao', role: 'Data & Impact', photo: '/globe.svg', description: 'Vikram analyzes outcomes and feedback, translating insights into improvements that deepen both reach and effectiveness.' },
-  { id: 'v8', name: 'Pooja Nair', role: 'Volunteer Coordinator', photo: '/file.svg', description: 'Pooja recruits and mentors volunteers, creating learning paths that equip them to lead sensitive, impact-focused initiatives responsibly.' },
+  { 
+    id: 'v1', 
+    name: 'Aamna S Qazi', 
+    role: 'Menstrual Educator', 
+    photo: '/volunteer/Aamna Qazi.webp', 
+    description: 'Champions revolutionary menstrual education through innovative partnership between Pink Legal Ibtida and WTC, creating transformative spaces where legal awareness meets menstrual advocacy.' 
+  },
+  { 
+    id: 'v2', 
+    name: 'Fatima', 
+    role: 'State Lead, Delhi', 
+    photo: '/volunteer/Fatima.webp', 
+    description: 'Dedicated member for 4.5 years, originally serving as Bihar Lead. Specializes in Menstrual Hygiene Management training, empowering underprivileged women with awareness and resources.' 
+  },
+  { 
+    id: 'v3', 
+    name: 'Jeeya Thukral', 
+    role: 'Menstrual Trainer', 
+    photo: '/volunteer/Jeeya Thukral.webp', 
+    description: 'Trained over 3,500 Delhi government school students on menstrual hygiene and gender sensitization. Creates meaningful connections across diverse communities in Hyderabad.' 
+  },
+  { 
+    id: 'v4', 
+    name: 'Sana Khan', 
+    role: 'Menstrual Educator', 
+    photo: '/volunteer/Sana Khan.webp', 
+    description: 'Brings powerful dual perspective representing Pink Legal Ibtida partnership. Weaves together menstrual health awareness with legal literacy for comprehensive empowerment.' 
+  },
+  { 
+    id: 'v5', 
+    name: 'Hoinunnem Chongloi', 
+    role: 'Lead Impact Trainer, Assam', 
+    photo: '/volunteer/Hoinunnem Chongloi.webp', 
+    description: 'Dynamic leader with years of dedicated service in menstrual hygiene management and waste sustainability across Assam. Successfully led numerous training sessions and rural outreach programs.' 
+  },
+  { 
+    id: 'v6', 
+    name: 'Suinila Joseph', 
+    role: 'Lead for North-East India', 
+    photo: '/volunteer/Suinila Joseph.webp', 
+    description: 'Serves as vital bridge connecting WTC\'s central mission to peripheral communities across North-East India. Delivered menstrual hygiene kits during Manipur riots, ensuring critical support reached women in crisis.' 
+  },
+  { 
+    id: 'v7', 
+    name: 'Zaheer Alam', 
+    role: 'State Lead, Rajasthan', 
+    photo: '/volunteer/Zaheer Alam.webp', 
+    description: 'State Lead for Rajasthan while working as District Coordinator with ActionAid Association. Spearheads MHHM campaigns across the state, focusing on empowering children and young girls through education and sustainable menstrual health management.' 
+  },
 ];
 
 export default function Volunteers({ items = DEFAULT_VOLUNTEERS, rotateMs = 5000 }: VolunteersProps) {

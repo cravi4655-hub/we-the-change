@@ -10,7 +10,7 @@ export default function GalleryPage() {
   const galleryImages = [
     {
       id: 1,
-      src: "/next.svg",
+      src: "/images/image1.jpg",
       alt: "Menstrual Health Workshop in Delhi",
       category: "Workshops",
       location: "Delhi",
@@ -18,7 +18,7 @@ export default function GalleryPage() {
     },
     {
       id: 2,
-      src: "/vercel.svg",
+      src: "/images/image2.jpg",
       alt: "Community Training in Mumbai",
       category: "Training",
       location: "Mumbai",
@@ -26,7 +26,7 @@ export default function GalleryPage() {
     },
     {
       id: 3,
-      src: "/globe.svg",
+      src: "/images/image3.jpg",
       alt: "Field Visit to Rural Rajasthan",
       category: "Field Work",
       location: "Rajasthan",
@@ -34,7 +34,7 @@ export default function GalleryPage() {
     },
     {
       id: 4,
-      src: "/file.svg",
+      src: "/images/image4.jpg",
       alt: "Awareness Session in Assam",
       category: "Awareness",
       location: "Assam",
@@ -42,7 +42,7 @@ export default function GalleryPage() {
     },
     {
       id: 5,
-      src: "/window.svg",
+      src: "/images/image5.jpg",
       alt: "Youth Leadership Program",
       category: "Youth",
       location: "Mumbai",
@@ -50,7 +50,7 @@ export default function GalleryPage() {
     },
     {
       id: 6,
-      src: "/next.svg",
+      src: "/images/image6.jpg",
       alt: "International Workshop in Kenya",
       category: "International",
       location: "Kenya",
@@ -58,7 +58,7 @@ export default function GalleryPage() {
     },
     {
       id: 7,
-      src: "/vercel.svg",
+      src: "/images/image7.jpg",
       alt: "Environmental Awareness Campaign",
       category: "Environment",
       location: "Delhi",
@@ -66,7 +66,7 @@ export default function GalleryPage() {
     },
     {
       id: 8,
-      src: "/globe.svg",
+      src: "/images/image8.jpg",
       alt: "Community Outreach in West Bengal",
       category: "Outreach",
       location: "West Bengal",
@@ -74,11 +74,267 @@ export default function GalleryPage() {
     },
     {
       id: 9,
-      src: "/file.svg",
+      src: "/images/image10.JPG",
       alt: "Product Distribution in Jharkhand",
       category: "Distribution",
       location: "Jharkhand",
       description: "Making menstrual hygiene products accessible to all"
+    },
+    {
+      id: 10,
+      src: "/images/image11.JPG",
+      alt: "Women's Empowerment Session",
+      category: "Workshops",
+      location: "Community Centers",
+      description: "Building confidence and knowledge among women"
+    },
+    {
+      id: 11,
+      src: "/images/image12.JPG",
+      alt: "Rural Distribution Program",
+      category: "Distribution",
+      location: "Rural Communities",
+      description: "Ensuring access to menstrual hygiene products"
+    },
+    {
+      id: 12,
+      src: "/images/image13.jpg",
+      alt: "Training Workshop",
+      category: "Training",
+      location: "Community Centers",
+      description: "Building capacity among local educators"
+    },
+    {
+      id: 13,
+      src: "/images/image14.jpg",
+      alt: "Awareness Campaign",
+      category: "Awareness",
+      location: "Urban Areas",
+      description: "Spreading awareness about menstrual health"
+    },
+    {
+      id: 14,
+      src: "/images/image15.jpg",
+      alt: "Field Work Activities",
+      category: "Field Work",
+      location: "Rural India",
+      description: "Direct community engagement and support"
+    },
+    {
+      id: 15,
+      src: "/images/image16.jpg",
+      alt: "Youth Engagement Program",
+      category: "Youth",
+      location: "Schools",
+      description: "Engaging young people in menstrual health advocacy"
+    },
+    {
+      id: 16,
+      src: "/images/image17.JPG",
+      alt: "Community Training Session",
+      category: "Training",
+      location: "Community Centers",
+      description: "Empowering community members with knowledge"
+    },
+    {
+      id: 17,
+      src: "/images/image18.JPG",
+      alt: "Workshop Activities",
+      category: "Workshops",
+      location: "Various Locations",
+      description: "Interactive learning sessions on menstrual health"
+    },
+    {
+      id: 18,
+      src: "/images/image19.JPG",
+      alt: "Outreach Program",
+      category: "Outreach",
+      location: "Remote Areas",
+      description: "Reaching underserved communities"
+    },
+    {
+      id: 19,
+      src: "/images/image20.JPG",
+      alt: "Environmental Initiative",
+      category: "Environment",
+      location: "Multiple States",
+      description: "Promoting sustainable menstrual hygiene practices"
+    },
+    {
+      id: 20,
+      src: "/images/image21.JPG",
+      alt: "Training Program",
+      category: "Training",
+      location: "Educational Institutions",
+      description: "Building capacity in menstrual health education"
+    },
+    {
+      id: 21,
+      src: "/images/image22.JPG",
+      alt: "Community Workshop",
+      category: "Workshops",
+      location: "Community Centers",
+      description: "Engaging communities in menstrual health discussions"
+    },
+    {
+      id: 22,
+      src: "/images/image23.JPG",
+      alt: "Field Activities",
+      category: "Field Work",
+      location: "Rural Communities",
+      description: "Direct implementation of menstrual health programs"
+    },
+    {
+      id: 23,
+      src: "/images/image24.JPG",
+      alt: "Awareness Program",
+      category: "Awareness",
+      location: "Various Locations",
+      description: "Breaking taboos and spreading awareness"
+    },
+    {
+      id: 24,
+      src: "/images/image25.JPG",
+      alt: "Distribution Initiative",
+      category: "Distribution",
+      location: "Underserved Areas",
+      description: "Ensuring access to menstrual hygiene products"
+    },
+    {
+      id: 25,
+      src: "/images/image28.png",
+      alt: "Program Documentation",
+      category: "Workshops",
+      location: "Program Sites",
+      description: "Capturing moments of impact and change"
+    },
+    {
+      id: 26,
+      src: "/images/image31.jpg",
+      alt: "Community Engagement",
+      category: "Outreach",
+      location: "Community Centers",
+      description: "Building strong community connections"
+    },
+    {
+      id: 27,
+      src: "/images/image32.jpeg",
+      alt: "Training Session",
+      category: "Training",
+      location: "Educational Centers",
+      description: "Capacity building for menstrual health educators"
+    },
+    {
+      id: 28,
+      src: "/images/image33.jpeg",
+      alt: "Workshop Activities",
+      category: "Workshops",
+      location: "Community Spaces",
+      description: "Interactive learning and skill building"
+    },
+    {
+      id: 29,
+      src: "/images/image35.jpeg",
+      alt: "Field Implementation",
+      category: "Field Work",
+      location: "Rural Areas",
+      description: "Direct program implementation in communities"
+    },
+    {
+      id: 30,
+      src: "/images/image36.jpeg",
+      alt: "Awareness Campaign",
+      category: "Awareness",
+      location: "Public Spaces",
+      description: "Public awareness about menstrual health"
+    },
+    {
+      id: 31,
+      src: "/images/image37.jpg",
+      alt: "Community Training",
+      category: "Training",
+      location: "Community Centers",
+      description: "Building local capacity for menstrual health"
+    },
+    {
+      id: 32,
+      src: "/images/image38.jpg",
+      alt: "Workshop Session",
+      category: "Workshops",
+      location: "Educational Institutions",
+      description: "Educational workshops on menstrual hygiene"
+    },
+    {
+      id: 33,
+      src: "/images/image39.jpg",
+      alt: "Outreach Activities",
+      category: "Outreach",
+      location: "Remote Communities",
+      description: "Reaching the most underserved populations"
+    },
+    {
+      id: 34,
+      src: "/images/image40.jpg",
+      alt: "Field Work Program",
+      category: "Field Work",
+      location: "Rural India",
+      description: "Direct community engagement and support"
+    },
+    {
+      id: 35,
+      src: "/images/image41.jpg",
+      alt: "Training Workshop",
+      category: "Training",
+      location: "Community Centers",
+      description: "Empowering local educators and advocates"
+    },
+    {
+      id: 36,
+      src: "/images/image42.jpg",
+      alt: "Awareness Initiative",
+      category: "Awareness",
+      location: "Various Locations",
+      description: "Spreading awareness and breaking taboos"
+    },
+    {
+      id: 37,
+      src: "/images/image43.JPG",
+      alt: "Community Program",
+      category: "Outreach",
+      location: "Community Centers",
+      description: "Community-based menstrual health programs"
+    },
+    {
+      id: 38,
+      src: "/images/image44.JPG",
+      alt: "Training Session",
+      category: "Training",
+      location: "Educational Centers",
+      description: "Building capacity in menstrual health education"
+    },
+    {
+      id: 39,
+      src: "/images/image45.jpeg",
+      alt: "Workshop Activities",
+      category: "Workshops",
+      location: "Community Spaces",
+      description: "Interactive learning and community engagement"
+    },
+    {
+      id: 40,
+      src: "/images/image46.JPG",
+      alt: "Field Activities",
+      category: "Field Work",
+      location: "Rural Communities",
+      description: "Direct implementation and community support"
+    },
+    {
+      id: 41,
+      src: "/images/image47.JPG",
+      alt: "Program Implementation",
+      category: "Training",
+      location: "Program Sites",
+      description: "On-ground implementation of menstrual health programs"
     }
   ];
 
@@ -151,7 +407,7 @@ export default function GalleryPage() {
                 className="group cursor-pointer"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
                 onClick={() => setSelectedImage(index)}
               >
                 <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-200 group-hover:shadow-xl transition-shadow">

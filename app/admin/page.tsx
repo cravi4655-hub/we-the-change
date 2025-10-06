@@ -27,10 +27,10 @@ interface AdminStats {
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats>({
-    totalStories: 12,
+    totalStories: 10,
     totalEvents: 8,
     totalPrograms: 4,
-    totalImages: 45
+    totalImages: 47
   });
 
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -263,27 +263,43 @@ function HomepageEditor() {
   const [sliderImages, setSliderImages] = useState([
     { 
       id: 1, 
-      caption: 'Empowering women through education', 
+      caption: 'Empowering women through menstrual health education', 
       active: true,
-      imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800',
-      altText: 'Women empowerment education workshop',
+      imageUrl: '/images/image1.jpg',
+      altText: 'Menstrual Health Workshop in Delhi',
       order: 1
     },
     { 
       id: 2, 
-      caption: 'Community workshops making a difference', 
+      caption: 'Community training programs making a difference', 
       active: true,
-      imageUrl: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800',
-      altText: 'Community workshop participants',
+      imageUrl: '/images/image2.jpg',
+      altText: 'Community Training in Mumbai',
       order: 2
     },
     { 
       id: 3, 
-      caption: 'Sustainable menstrual health solutions', 
+      caption: 'Field work transforming rural communities', 
       active: true,
-      imageUrl: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800',
-      altText: 'Sustainable health products',
+      imageUrl: '/images/image3.jpg',
+      altText: 'Field Visit to Rural Rajasthan',
       order: 3
+    },
+    { 
+      id: 4, 
+      caption: 'Youth leadership driving change', 
+      active: true,
+      imageUrl: '/images/image5.jpg',
+      altText: 'Youth Leadership Program',
+      order: 4
+    },
+    { 
+      id: 5, 
+      caption: 'Global impact reaching Africa', 
+      active: true,
+      imageUrl: '/images/image6.jpg',
+      altText: 'International Workshop in Kenya',
+      order: 5
     }
   ]);
 
@@ -661,25 +677,25 @@ function ProgramsEditor() {
       id: 'paint-me-red',
       title: '#PaintMeRed',
       summary: 'Breaking menstrual taboos through art, storytelling, and community engagement to normalize conversations about periods.',
-      description: 'Detailed program description...'
+      description: 'A comprehensive program that uses creative arts, storytelling, and community engagement to break down menstrual taboos. Through workshops, art exhibitions, and interactive sessions, we create safe spaces for open conversations about menstruation, empowering women and girls to embrace their natural cycles with confidence and dignity.'
     },
     {
       id: 'red-waste',
       title: '#RedWaste',
       summary: 'Sustainable menstrual waste management solutions promoting environmental responsibility and proper disposal practices.',
-      description: 'Detailed program description...'
+      description: 'An environmental initiative focused on sustainable menstrual waste management. We educate communities about proper disposal methods, promote eco-friendly menstrual products, and implement waste management systems that protect both health and environment while reducing the carbon footprint of menstrual hygiene practices.'
     },
     {
       id: 'train-the-trainer',
       title: 'Train The Trainer',
       summary: 'Empowering local leaders with comprehensive training to become menstrual health advocates in their communities.',
-      description: 'Detailed program description...'
+      description: 'A capacity-building program that trains local community leaders, educators, and healthcare workers to become menstrual health advocates. Participants receive comprehensive training on menstrual hygiene management, taboo-breaking techniques, and community engagement strategies, enabling them to lead sustainable change in their own communities.'
     },
     {
       id: 'project-sachet',
       title: 'Project Sachet',
       summary: 'Innovative sachet-based menstrual hygiene solutions making sustainable products accessible to all communities.',
-      description: 'Detailed program description...'
+      description: 'An innovative initiative that provides affordable, sustainable menstrual hygiene products in convenient sachet packaging. This program ensures accessibility for women in remote and underserved areas, combining affordability with environmental responsibility while maintaining high standards of hygiene and comfort.'
     }
   ]);
 
@@ -731,8 +747,16 @@ function ProgramsEditor() {
 // Stories Editor Component
 function StoriesEditor() {
   const [stories, setStories] = useState([
-    { id: 1, name: 'Priya Sharma', age: 16, location: 'Mumbai, Maharashtra', story: 'After attending the workshop, I learned to manage my periods confidently...' },
-    { id: 2, name: 'Anjali Devi', age: 24, location: 'Patna, Bihar', story: 'The reusable pads have changed my life completely...' }
+    { id: 1, name: 'Voices at Sunrise High', age: 'Students', location: 'Pune, Maharashtra', story: 'I learned I\'m not alone—talking about periods is strength.' },
+    { id: 2, name: 'Community Health Workshop', age: 'Participants', location: 'Bhubaneswar, Odisha', story: 'We broke myths together and built confidence.' },
+    { id: 3, name: 'Red Dignity Entrepreneurs', age: 'Women', location: 'Ranchi, Jharkhand', story: 'Selling pads became our path to independence.' },
+    { id: 4, name: 'Train The Trainer Program', age: 'Educators', location: 'Delhi, India', story: 'Empowering educators to become menstrual health advocates.' },
+    { id: 5, name: 'Breaking Taboos in Rural Communities', age: 'Community', location: 'Rajasthan, India', story: 'We created safe spaces for open conversations about menstruation.' },
+    { id: 6, name: 'Field Implementation Success', age: 'Community', location: 'Assam, India', story: 'Direct community engagement that transformed lives.' },
+    { id: 7, name: 'Youth Leadership Initiative', age: 'Youth', location: 'Mumbai, Maharashtra', story: 'Young leaders are driving change in their communities.' },
+    { id: 8, name: 'Global Impact in Kenya', age: 'International', location: 'Nairobi, Kenya', story: 'Expanding our mission to empower women across Africa.' },
+    { id: 9, name: 'Sustainable Menstrual Health', age: 'Community', location: 'Multiple States, India', story: 'Promoting eco-friendly solutions for menstrual hygiene.' },
+    { id: 10, name: 'Last Mile Distribution', age: 'Beneficiaries', location: 'Jharkhand, India', story: 'Ensuring menstrual hygiene products reach every woman.' }
   ]);
 
   return (
@@ -870,18 +894,60 @@ function EventsEditor() {
 function GalleryEditor() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [galleryImages, setGalleryImages] = useState([
-    { id: 1, url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400', category: 'workshops', caption: 'Community workshop in Mumbai', featured: true },
-    { id: 2, url: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400', category: 'events', caption: 'Health awareness drive', featured: false },
-    { id: 3, url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400', category: 'programs', caption: 'Sustainable products distribution', featured: true },
-    { id: 4, url: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=400', category: 'testimonials', caption: 'Success story from beneficiary', featured: false }
+    { id: 1, url: '/images/image1.jpg', category: 'workshops', caption: 'Menstrual Health Workshop in Delhi', featured: true },
+    { id: 2, url: '/images/image2.jpg', category: 'training', caption: 'Community Training in Mumbai', featured: true },
+    { id: 3, url: '/images/image3.jpg', category: 'field-work', caption: 'Field Visit to Rural Rajasthan', featured: true },
+    { id: 4, url: '/images/image4.jpg', category: 'awareness', caption: 'Awareness Session in Assam', featured: false },
+    { id: 5, url: '/images/image5.jpg', category: 'youth', caption: 'Youth Leadership Program', featured: true },
+    { id: 6, url: '/images/image6.jpg', category: 'international', caption: 'International Workshop in Kenya', featured: true },
+    { id: 7, url: '/images/image7.jpg', category: 'environment', caption: 'Environmental Awareness Campaign', featured: false },
+    { id: 8, url: '/images/image8.jpg', category: 'outreach', caption: 'Community Outreach in West Bengal', featured: true },
+    { id: 9, url: '/images/image10.JPG', category: 'distribution', caption: 'Product Distribution in Jharkhand', featured: true },
+    { id: 10, url: '/images/image11.JPG', category: 'workshops', caption: 'Women\'s Empowerment Session', featured: false },
+    { id: 11, url: '/images/image12.JPG', category: 'distribution', caption: 'Rural Distribution Program', featured: false },
+    { id: 12, url: '/images/image13.jpg', category: 'training', caption: 'Training Workshop', featured: false },
+    { id: 13, url: '/images/image14.jpg', category: 'awareness', caption: 'Awareness Campaign', featured: false },
+    { id: 14, url: '/images/image15.jpg', category: 'field-work', caption: 'Field Work Activities', featured: false },
+    { id: 15, url: '/images/image16.jpg', category: 'youth', caption: 'Youth Engagement Program', featured: true },
+    { id: 16, url: '/images/image17.JPG', category: 'training', caption: 'Community Training Session', featured: false },
+    { id: 17, url: '/images/image18.JPG', category: 'workshops', caption: 'Workshop Activities', featured: false },
+    { id: 18, url: '/images/image19.JPG', category: 'outreach', caption: 'Outreach Program', featured: false },
+    { id: 19, url: '/images/image20.JPG', category: 'environment', caption: 'Environmental Initiative', featured: true },
+    { id: 20, url: '/images/image21.JPG', category: 'training', caption: 'Training Program', featured: false },
+    { id: 21, url: '/images/image22.JPG', category: 'workshops', caption: 'Community Workshop', featured: false },
+    { id: 22, url: '/images/image23.JPG', category: 'field-work', caption: 'Field Activities', featured: false },
+    { id: 23, url: '/images/image24.JPG', category: 'awareness', caption: 'Awareness Program', featured: false },
+    { id: 24, url: '/images/image25.JPG', category: 'distribution', caption: 'Distribution Initiative', featured: false },
+    { id: 25, url: '/images/image28.png', category: 'workshops', caption: 'Program Documentation', featured: false },
+    { id: 26, url: '/images/image31.jpg', category: 'outreach', caption: 'Community Engagement', featured: false },
+    { id: 27, url: '/images/image32.jpeg', category: 'training', caption: 'Training Session', featured: false },
+    { id: 28, url: '/images/image33.jpeg', category: 'workshops', caption: 'Workshop Activities', featured: false },
+    { id: 29, url: '/images/image35.jpeg', category: 'field-work', caption: 'Field Implementation', featured: false },
+    { id: 30, url: '/images/image36.jpeg', category: 'awareness', caption: 'Awareness Campaign', featured: false },
+    { id: 31, url: '/images/image37.jpg', category: 'training', caption: 'Community Training', featured: false },
+    { id: 32, url: '/images/image38.jpg', category: 'workshops', caption: 'Workshop Session', featured: false },
+    { id: 33, url: '/images/image39.jpg', category: 'outreach', caption: 'Outreach Activities', featured: false },
+    { id: 34, url: '/images/image40.jpg', category: 'field-work', caption: 'Field Work Program', featured: true },
+    { id: 35, url: '/images/image41.jpg', category: 'training', caption: 'Training Workshop', featured: false },
+    { id: 36, url: '/images/image42.jpg', category: 'awareness', caption: 'Awareness Initiative', featured: false },
+    { id: 37, url: '/images/image43.JPG', category: 'outreach', caption: 'Community Program', featured: false },
+    { id: 38, url: '/images/image44.JPG', category: 'training', caption: 'Training Session', featured: false },
+    { id: 39, url: '/images/image45.jpeg', category: 'workshops', caption: 'Workshop Activities', featured: false },
+    { id: 40, url: '/images/image46.JPG', category: 'field-work', caption: 'Field Activities', featured: false },
+    { id: 41, url: '/images/image47.JPG', category: 'training', caption: 'Program Implementation', featured: false }
   ]);
 
   const categories = [
     { id: 'all', name: 'All Images', count: galleryImages.length },
     { id: 'workshops', name: 'Workshops', count: galleryImages.filter(img => img.category === 'workshops').length },
-    { id: 'events', name: 'Events', count: galleryImages.filter(img => img.category === 'events').length },
-    { id: 'programs', name: 'Programs', count: galleryImages.filter(img => img.category === 'programs').length },
-    { id: 'testimonials', name: 'Testimonials', count: galleryImages.filter(img => img.category === 'testimonials').length }
+    { id: 'training', name: 'Training', count: galleryImages.filter(img => img.category === 'training').length },
+    { id: 'field-work', name: 'Field Work', count: galleryImages.filter(img => img.category === 'field-work').length },
+    { id: 'awareness', name: 'Awareness', count: galleryImages.filter(img => img.category === 'awareness').length },
+    { id: 'youth', name: 'Youth', count: galleryImages.filter(img => img.category === 'youth').length },
+    { id: 'international', name: 'International', count: galleryImages.filter(img => img.category === 'international').length },
+    { id: 'environment', name: 'Environment', count: galleryImages.filter(img => img.category === 'environment').length },
+    { id: 'outreach', name: 'Outreach', count: galleryImages.filter(img => img.category === 'outreach').length },
+    { id: 'distribution', name: 'Distribution', count: galleryImages.filter(img => img.category === 'distribution').length }
   ];
 
   const filteredImages = selectedCategory === 'all' 

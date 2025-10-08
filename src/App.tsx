@@ -1,6 +1,7 @@
 import { Link, Route, Routes, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Toaster } from 'react-hot-toast';
 import DonateButton from '../app/components/DonateButton';
 import Home from '../app/page';
 import DonatePage from '../app/donate/page';
@@ -29,7 +30,34 @@ export default function App() {
 
   return (
     <div className="antialiased bg-bg text-text font-sans">
-      <header className="w-full bg-black shadow-sm border-b border-gray-800 sticky top-0 z-50">
+      {/* Toast Notifications */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#FFFFFF',
+            color: '#1F2937',
+            borderRadius: '12px',
+            boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+            padding: '16px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#EC008C',
+              secondary: '#FFFFFF',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#FFFFFF',
+            },
+          },
+        }}
+      />
+      
+      <header className="w-full bg-black/95 backdrop-blur-md shadow-lg border-b border-gray-800 sticky top-0 z-50 transition-all duration-300">
       <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link 
             to="/" 
@@ -59,7 +87,7 @@ export default function App() {
           {/* Mobile Menu Button & Donate */}
           <div className="md:hidden flex items-center gap-3">
             <DonateButton 
-              className="text-xs px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors" 
+              className="text-xs px-4 py-2 gradient-primary text-white rounded-full hover:shadow-glow transition-all" 
               amount={500}
             >
               Donate
@@ -79,7 +107,7 @@ export default function App() {
           </div>
           
           <DonateButton 
-            className="hidden md:inline-flex text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors" 
+            className="hidden md:inline-flex text-sm gradient-primary text-white px-6 py-3 rounded-full hover:shadow-glow-lg transition-all" 
             amount={500}
           >
             Donate Now
@@ -155,15 +183,15 @@ export default function App() {
                 Contact
               </Link>
               
-              {/* Mobile Donate CTA */}
-              <div className="pt-4 mt-4 border-t border-gray-800">
-                <DonateButton 
-                  className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200" 
-                  amount={500}
-                >
-                  Support Our Mission
-                </DonateButton>
-              </div>
+                {/* Mobile Donate CTA */}
+                <div className="pt-4 mt-4 border-t border-gray-800">
+                  <DonateButton 
+                    className="w-full gradient-primary text-white py-4 px-4 rounded-full font-bold hover:shadow-glow-lg transition-all duration-300" 
+                    amount={500}
+                  >
+                    Support Our Mission
+                  </DonateButton>
+                </div>
             </div>
           </div>
         )}
@@ -194,8 +222,8 @@ export default function App() {
         </Routes>
       </main>
 
-      <footer className="w-full border-t border-muted/20 bg-bg-alt">
-        <div className="container mx-auto px-6 py-8 flex flex-col md:flex-col space-y-6 text-center md:text-left">
+          <footer className="w-full border-t border-light-gray bg-gradient-to-br from-bg-alt to-light shadow-inner">
+            <div className="container mx-auto px-6 py-12 flex flex-col md:flex-col space-y-8 text-center md:text-left">
           {/* Main footer content */}
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div>
@@ -207,15 +235,15 @@ export default function App() {
               </p>
             </div>
             
-            {/* Mobile footer CTA */}
-            <div className="md:hidden">
-              <DonateButton 
-                className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors w-full" 
-                amount={500}
-              >
-                Support Our Mission
-              </DonateButton>
-            </div>
+                {/* Mobile footer CTA */}
+                <div className="md:hidden">
+                  <DonateButton 
+                    className="gradient-primary text-white px-8 py-4 rounded-full font-bold hover:shadow-glow-lg transition-all w-full" 
+                    amount={500}
+                  >
+                    Support Our Mission
+                  </DonateButton>
+                </div>
           </div>
 
           {/* Footer links with better mobile layout */}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 
 interface PartnershipFormProps {
   isOpen: boolean;
@@ -43,7 +44,9 @@ export default function PartnershipForm({ isOpen, onClose }: PartnershipFormProp
     e.preventDefault();
     // Handle partnership inquiry submission
     console.log('Partnership inquiry submitted:', formData);
-    alert('Thank you for your interest! We will contact you soon to discuss partnership opportunities.');
+    toast.success('🤝 Thank you for your interest! We\'ll contact you soon to discuss partnership opportunities.', {
+      duration: 6000,
+    });
     onClose();
   };
 

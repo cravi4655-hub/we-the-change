@@ -1,280 +1,259 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { fetchUnsplashImages } from '../utils/unsplash';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay, EffectFade, Parallax } from 'swiper/modules';
+import { FaHeart, FaUsers, FaHandHoldingHeart } from 'react-icons/fa';
+import { IoSparkles } from 'react-icons/io5';
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import DonateButton from './DonateButton';
 
-interface SliderImage {
-  id: string;
-  urls: {
-    regular: string;
-    full: string;
-  };
-  alt_description: string | null;
-  user: {
-    name: string;
-  };
-}
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+import 'swiper/css/parallax';
 
 interface ImpactSliderProps {
   className?: string;
 }
 
-export default function ImpactSlider({ className = '' }: ImpactSliderProps) {
-  const [images, setImages] = useState<SliderImage[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+interface SlideContent {
+  id: number;
+  image: string;
+  title: string;
+  subtitle: string;
+  statLabel1: string;
+  statValue1: string;
+  statLabel2: string;
+  statValue2: string;
+  statLabel3: string;
+  statValue3: string;
+}
 
-  // Impact messages that will overlay on images
-  const impactMessages = [
-    "Breaking the Silence",
-    "We never spoke of it. We whispered about it. We're changing it.",
-    "For generations, women have carried the weight of unspoken struggles",
-    "Today, we're creating a movement where every voice matters",
-    "Every woman can stand in her power"
+export default function ImpactSlider({ className = '' }: ImpactSliderProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const slides: SlideContent[] = [
+    {
+      id: 1,
+      image: '/images/image1.jpg',
+      title: 'Breaking the Silence',
+      subtitle: 'We never spoke of it. We whispered about it. We\'re changing it.',
+      statLabel1: 'Pads Distributed',
+      statValue1: '385K+',
+      statLabel2: 'Women Educated',
+      statValue2: '85K+',
+      statLabel3: 'Trainers',
+      statValue3: '200+',
+    },
+    {
+      id: 2,
+      image: '/images/image2.jpg',
+      title: 'Empowering Communities',
+      subtitle: 'Training local leaders to become menstrual health advocates',
+      statLabel1: 'States Reached',
+      statValue1: '15+',
+      statLabel2: 'Communities',
+      statValue2: '250+',
+      statLabel3: 'Workshops',
+      statValue3: '500+',
+    },
+    {
+      id: 3,
+      image: '/images/image3.jpg',
+      title: 'Sustainable Change',
+      subtitle: 'Field work transforming rural communities across India and Africa',
+      statLabel1: 'CO2 Avoided',
+      statValue1: '11.55T',
+      statLabel2: 'Rural Villages',
+      statValue2: '180+',
+      statLabel3: 'Years Active',
+      statValue3: '8+',
+    },
+    {
+      id: 4,
+      image: '/images/image5.jpg',
+      title: 'Youth Leadership',
+      subtitle: 'Young leaders driving change in their communities',
+      statLabel1: 'Youth Trained',
+      statValue1: '3,500+',
+      statLabel2: 'Schools',
+      statValue2: '120+',
+      statLabel3: 'Programs',
+      statValue3: '4',
+    },
+    {
+      id: 5,
+      image: '/images/image6.jpg',
+      title: 'Global Impact',
+      subtitle: 'Expanding our mission to empower women across Africa',
+      statLabel1: 'Countries',
+      statValue1: '2',
+      statLabel2: 'International',
+      statValue2: 'Kenya',
+      statLabel3: 'Growing',
+      statValue3: '∞',
+    },
   ];
 
-  useEffect(() => {
-    const loadImages = async () => {
-      try {
-        setIsLoading(true);
-        // Try multiple search terms to get diverse animated/artistic images
-        const searchTerms = [
-          'women empowerment illustration art',
-          'community together animated style',
-          'feminine strength digital art',
-          'women solidarity illustration',
-          'empowerment art community'
-        ];
-        
-        // Fetch images with different search terms
-        const allImages = [];
-        for (const term of searchTerms) {
-          const images = await fetchUnsplashImages(term, 1);
-          allImages.push(...images);
-        }
-        
-        // Shuffle and take first 5
-        const shuffled = allImages.sort(() => 0.5 - Math.random());
-        setImages(shuffled.slice(0, 5));
-      } catch (error) {
-        console.error('Error loading images:', error);
-        // Fallback to placeholder images if API fails
-        setImages([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadImages();
-  }, []);
-
-  // Auto-play functionality
-  useEffect(() => {
-    if (!isAutoPlaying || images.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, images.length]);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  if (isLoading) {
-    return (
-      <div className={`relative h-96 bg-gray-100 rounded-lg flex items-center justify-center ${className}`}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted">Loading impact stories...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (images.length === 0) {
-    return (
-      <div className={`relative h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg flex items-center justify-center ${className}`}>
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-primary mb-2">Impact in Action</h2>
-          <p className="text-muted">Transforming lives through menstrual health education</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={`relative overflow-hidden rounded-lg ${className}`}>
-      {/* Main Slider Container */}
-      <div className="relative h-[400px] sm:h-[500px] md:h-[600px]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 300 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -300 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="absolute inset-0"
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
-          >
-            {/* Background Image */}
+    <section className={`relative w-full h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden ${className}`}>
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay, EffectFade, Parallax]}
+        effect="fade"
+        speed={1000}
+        parallax={true}
+        navigation={{
+          nextEl: '.swiper-button-next-custom',
+          prevEl: '.swiper-button-prev-custom',
+        }}
+        pagination={{
+          clickable: true,
+          el: '.swiper-pagination-custom',
+        }}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        loop={true}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        className="h-full w-full"
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.id}>
+            {/* Background Image with Parallax */}
             <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url(${images[currentIndex]?.urls.regular})`
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ 
+                backgroundImage: `url(${slide.image})`,
               }}
+              data-swiper-parallax="-23%"
             >
-              {/* Dark overlay for better text readability */}
-              <div className="absolute inset-0 bg-black/40"></div>
+              {/* Dark overlay with gradient */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
             </div>
 
-            {/* Content Overlay - Mobile-first responsive layout */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
-                {/* Left Side - Main Content */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="text-white"
+            {/* Content */}
+            <div className="relative z-10 h-full flex items-center justify-center text-center p-4">
+              <div className="max-w-4xl mx-auto">
+                {/* Title with parallax */}
+                <motion.h2
+                  data-swiper-parallax="-300"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white">
-                    {impactMessages[0]}
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 text-white/90 leading-relaxed">
-                    {impactMessages[currentIndex + 1] || impactMessages[1]}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
-                    <Link 
-                      to="/contact"
-                      className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg text-center"
-                    >
-                      Join the Movement
-                    </Link>
-                    <DonateButton 
-                      className="border-2 border-white text-white hover:bg-white hover:text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base lg:text-lg"
-                      amount={500}
-                    >
-                      Donate for Dignity
-                    </DonateButton>
-                  </div>
-                  
-                  {/* Impact Statistics */}
-                  <div className="flex flex-wrap gap-4 sm:gap-6 text-white">
-                    <div className="text-center flex-1 min-w-[80px]">
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-teal-300">85,000+</div>
-                      <div className="text-xs sm:text-sm text-white/80">Women Reached</div>
-                    </div>
-                    <div className="text-center flex-1 min-w-[80px]">
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-orange-300">200+</div>
-                      <div className="text-xs sm:text-sm text-white/80">Leaders Trained</div>
-                    </div>
-                    <div className="text-center flex-1 min-w-[80px]">
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-300">19</div>
-                      <div className="text-xs sm:text-sm text-white/80">States Impacted</div>
-                    </div>
-                  </div>
+                  {slide.title}
+                </motion.h2>
+
+                {/* Subtitle with parallax */}
+                <motion.p
+                  data-swiper-parallax="-200"
+                  className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 text-white/90 leading-relaxed max-w-2xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  {slide.subtitle}
+                </motion.p>
+
+                {/* CTAs */}
+                <motion.div
+                  data-swiper-parallax="-100"
+                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8 justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  <Link
+                    to="/contact"
+                    className="group bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-glow-lg text-sm sm:text-base lg:text-lg flex items-center justify-center gap-2"
+                  >
+                    <FaUsers className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    Join the Movement
+                  </Link>
+                  <DonateButton
+                    className="group gradient-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-glow-lg text-sm sm:text-base lg:text-lg flex items-center justify-center gap-2"
+                    amount={500}
+                  >
+                    <FaHeart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    Donate for Dignity
+                  </DonateButton>
                 </motion.div>
 
-                {/* Right Side - Dialogue Bubbles - Hidden on mobile, shown on desktop */}
+                {/* Impact Statistics */}
                 <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="relative hidden lg:block"
+                  data-swiper-parallax="-50"
+                  className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
                 >
-                  <div className="bg-gradient-to-br from-pink-100 to-teal-100 rounded-2xl p-6 lg:p-8 relative">
-                    {/* Dialogue Bubbles */}
-                    <div className="absolute top-3 left-3 lg:top-4 lg:left-4 bg-white rounded-full px-3 py-2 lg:px-4 shadow-lg">
-                      <p className="text-xs lg:text-sm text-gray-700">"We never spoke of it."</p>
-                      <p className="text-xs text-gray-500">— grandmother</p>
-                    </div>
-                    <div className="absolute top-12 right-3 lg:top-16 lg:right-4 bg-white rounded-full px-3 py-2 lg:px-4 shadow-lg">
-                      <p className="text-xs lg:text-sm text-gray-700">"We whispered about it."</p>
-                      <p className="text-xs text-gray-500">— mother</p>
-                    </div>
-                    <div className="absolute bottom-12 left-3 lg:bottom-16 lg:left-4 bg-white rounded-full px-3 py-2 lg:px-4 shadow-lg">
-                      <p className="text-xs lg:text-sm text-gray-700">"We're changing it."</p>
-                      <p className="text-xs text-gray-500">— daughter</p>
-                    </div>
-                    
-                    {/* Central Element */}
-                    <div className="flex flex-col items-center justify-center h-24 lg:h-32">
-                      <div className="w-12 h-12 lg:w-16 lg:h-16 bg-primary rounded-full flex items-center justify-center mb-2">
-                        <div className="w-6 h-6 lg:w-8 lg:h-8 bg-white rounded-full"></div>
-                      </div>
-                      <p className="text-primary font-semibold text-center text-sm lg:text-base">Community Together</p>
-                      <p className="text-gray-600 text-xs lg:text-sm text-center">Building bridges, creating change</p>
-                    </div>
+                  <div className="glass px-4 sm:px-6 py-3 sm:py-4 rounded-xl backdrop-blur-md">
+                    <div className="text-2xl sm:text-3xl font-bold">{slide.statValue1}</div>
+                    <div className="text-xs sm:text-sm opacity-90">{slide.statLabel1}</div>
+                  </div>
+                  <div className="glass px-4 sm:px-6 py-3 sm:py-4 rounded-xl backdrop-blur-md">
+                    <div className="text-2xl sm:text-3xl font-bold">{slide.statValue2}</div>
+                    <div className="text-xs sm:text-sm opacity-90">{slide.statLabel2}</div>
+                  </div>
+                  <div className="glass px-4 sm:px-6 py-3 sm:py-4 rounded-xl backdrop-blur-md">
+                    <div className="text-2xl sm:text-3xl font-bold">{slide.statValue3}</div>
+                    <div className="text-xs sm:text-sm opacity-90">{slide.statLabel3}</div>
                   </div>
                 </motion.div>
               </div>
             </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-            {/* Navigation Arrows - Mobile optimized */}
-            <button
-              onClick={goToPrevious}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-2 sm:p-3 rounded-full transition-colors backdrop-blur-sm"
-              aria-label="Previous image"
-            >
-              <ChevronLeftIcon className="w-4 h-4 sm:w-6 sm:h-6" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-2 sm:p-3 rounded-full transition-colors backdrop-blur-sm"
-              aria-label="Next image"
-            >
-              <ChevronRightIcon className="w-4 h-4 sm:w-6 sm:h-6" />
-            </button>
-          </motion.div>
-        </AnimatePresence>
+      {/* Custom Navigation Arrows */}
+      <button
+        className="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+        aria-label="Previous slide"
+      >
+        <HiChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+      </button>
+      <button
+        className="swiper-button-next-custom absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+        aria-label="Next slide"
+      >
+        <HiChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+      </button>
 
-        {/* Navigation Dots - Mobile optimized */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'bg-white scale-125' 
-                  : 'bg-white/50 hover:bg-white/75'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+      {/* Custom Pagination */}
+      <div className="swiper-pagination-custom absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2"></div>
 
-        {/* Image Counter - Mobile optimized */}
-        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/20 text-white px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm backdrop-blur-sm">
-          {currentIndex + 1} / {images.length}
-        </div>
+      {/* Decorative Elements */}
+      <div className="absolute top-10 right-10 z-10 hidden lg:block">
+        <IoSparkles className="w-12 h-12 text-white/30 animate-pulse-slow" />
+      </div>
+      <div className="absolute bottom-20 left-10 z-10 hidden lg:block">
+        <FaHandHoldingHeart className="w-10 h-10 text-white/30 animate-float" />
       </div>
 
-      {/* Image Attribution */}
-      {images[currentIndex] && (
-        <div className="absolute bottom-2 left-4 text-white/70 text-xs">
-          Photo by {images[currentIndex].user.name} on Unsplash
-        </div>
-      )}
-    </div>
+      {/* Custom Swiper Pagination Styles */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .swiper-pagination-custom .swiper-pagination-bullet {
+          width: 12px;
+          height: 12px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 1;
+          transition: all 0.3s ease;
+        }
+        .swiper-pagination-custom .swiper-pagination-bullet-active {
+          width: 32px;
+          border-radius: 6px;
+          background: #FFFFFF;
+        }
+      `}} />
+    </section>
   );
 }

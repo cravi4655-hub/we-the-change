@@ -2,7 +2,19 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Zoom, Thumbs, FreeMode } from 'swiper/modules';
+import { HiX, HiChevronLeft, HiChevronRight } from 'react-icons/hi';
+import { FiMapPin } from 'react-icons/fi';
 import DonateButton from '../components/DonateButton';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/zoom';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -346,10 +358,10 @@ export default function GalleryPage() {
     : galleryImages.filter(img => img.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-mixed-vibrant-2 pattern-waves">
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-coral/5 to-teal/10"></div>
+          <section className="relative py-20 lg:py-32 overflow-hidden bg-animated-gradient">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-coral/10 to-teal/20"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -358,10 +370,10 @@ export default function GalleryPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold gradient-text-glow mb-6">
               Gallery
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-700 mb-8 font-medium">
               Moments from our fieldwork, workshops, and community events across India and Africa
             </p>
           </motion.div>
@@ -377,19 +389,19 @@ export default function GalleryPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeCategory === category
-                    ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+                      activeCategory === category
+                        ? 'gradient-primary text-white shadow-glow scale-105'
+                        : 'bg-white text-dark hover:bg-bg-alt border border-light-gray'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
           </motion.div>
         </div>
       </section>
@@ -402,99 +414,157 @@ export default function GalleryPage() {
             layout
           >
             {filteredImages.map((image, index) => (
-              <motion.div
-                key={image.id}
-                className="group cursor-pointer"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
-                onClick={() => setSelectedImage(index)}
-              >
-                <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-200 group-hover:shadow-xl transition-shadow">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <div className="text-sm font-medium">{image.category}</div>
-                      <div className="text-xs">{image.location}</div>
+                  <motion.div
+                    key={image.id}
+                    className="group cursor-pointer"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: index * 0.03 }}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-3xl bg-light-gray shadow-md group-hover:shadow-glow transition-all duration-300">
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-4 left-4 right-4 text-white">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="px-3 py-1 bg-white/20 glass rounded-full text-xs font-semibold">
+                              {image.category}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs">
+                            <FiMapPin className="w-3 h-3" />
+                            {image.location}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </motion.div>
+                  </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Image Modal */}
+      {/* Enhanced Image Modal with Swiper */}
       {selectedImage !== null && (
         <motion.div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+          className="fixed inset-0 bg-black/95 flex items-center justify-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setSelectedImage(null)}
         >
-          <motion.div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative">
-              <img
-                src={filteredImages[selectedImage].src}
-                alt={filteredImages[selectedImage].alt}
-                className="w-full h-64 md:h-96 object-cover rounded-t-2xl"
-              />
-              <button
-                className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300"
-                onClick={() => setSelectedImage(null)}
+          <div className="w-full h-full flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 z-50 w-12 h-12 rounded-full glass-dark text-white hover:bg-white/20 transition-all duration-300 flex items-center justify-center"
+              onClick={() => setSelectedImage(null)}
+            >
+              <HiX className="w-6 h-6" />
+            </button>
+
+            {/* Swiper Lightbox */}
+            <div className="w-full max-w-6xl">
+              <Swiper
+                modules={[Navigation, Pagination, Zoom]}
+                initialSlide={selectedImage}
+                navigation
+                pagination={{ clickable: true }}
+                zoom={true}
+                className="gallery-lightbox"
               >
-                ×
-              </button>
+                {filteredImages.map((image, idx) => (
+                  <SwiperSlide key={image.id}>
+                    <div className="flex flex-col items-center">
+                      {/* Image */}
+                      <div className="swiper-zoom-container mb-6">
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          className="max-h-[70vh] w-auto rounded-2xl"
+                        />
+                      </div>
+                      
+                      {/* Image Info */}
+                      <div className="glass-dark rounded-2xl p-6 max-w-2xl w-full">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="px-4 py-2 gradient-primary text-white rounded-full text-sm font-semibold">
+                            {image.category}
+                          </span>
+                          <span className="text-white/80 flex items-center gap-1">
+                            <FiMapPin className="w-4 h-4" />
+                            {image.location}
+                          </span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-2">
+                          {image.alt}
+                        </h3>
+                        <p className="text-white/70 leading-relaxed">
+                          {image.description}
+                        </p>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
-            <div className="p-8">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                  {filteredImages[selectedImage].category}
-                </span>
-                <span className="text-gray-600">📍 {filteredImages[selectedImage].location}</span>
-              </div>
-              <h3 className="text-2xl font-bold text-primary mb-4">
-                {filteredImages[selectedImage].alt}
-              </h3>
-              <p className="text-gray-700">
-                {filteredImages[selectedImage].description}
-              </p>
-            </div>
-          </motion.div>
+          </div>
+
+          {/* Custom Lightbox Styles */}
+          <style dangerouslySetInnerHTML={{__html: `
+            .gallery-lightbox .swiper-button-next,
+            .gallery-lightbox .swiper-button-prev {
+              color: #FFFFFF !important;
+              background: rgba(255, 255, 255, 0.1);
+              backdrop-filter: blur(10px);
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+            }
+            .gallery-lightbox .swiper-button-next:after,
+            .gallery-lightbox .swiper-button-prev:after {
+              font-size: 20px !important;
+            }
+            .gallery-lightbox .swiper-pagination-bullet {
+              background: #FFFFFF !important;
+            }
+          `}} />
         </motion.div>
       )}
 
       {/* Call to Action */}
-      <section className="py-16 lg:py-24 bg-primary text-white">
-        <div className="container mx-auto px-6 text-center">
+      <section className="py-16 lg:py-24 gradient-warm text-white relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            <h2 className="text-3xl lg:text-5xl font-bold mb-6">
               Be Part of Our Story
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
+            <p className="text-lg lg:text-xl mb-8 max-w-2xl mx-auto text-white/90">
               Join us in creating more moments of change and empowerment across communities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors">
+              <button className="px-8 py-4 bg-white text-primary font-bold rounded-full hover:scale-105 hover:shadow-glow-lg transition-all duration-300">
                 Share Your Story
               </button>
-              <DonateButton amount={1000} />
+              <DonateButton 
+                amount={1000}
+                className="px-8 py-4 bg-white/10 glass text-white font-bold rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300"
+              >
+                Support Our Mission
+              </DonateButton>
             </div>
           </motion.div>
         </div>

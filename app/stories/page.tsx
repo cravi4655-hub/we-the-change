@@ -122,12 +122,19 @@ const stories: StoryItem[] = [
 
 export default function StoriesPage() {
   return (
-    <section className="bg-bg">
-      <div className="container mx-auto px-6 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">Stories of Change</h1>
-          <p className="text-muted max-w-2xl mx-auto">Photos and videos from our schools, workshops, and entrepreneurship programs.</p>
+    <section className="bg-mixed-vibrant-3 pattern-circles min-h-screen">
+      {/* Hero Section */}
+          <div className="bg-animated-gradient-2 text-white py-20 lg:py-32">
+        <div className="container mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 gradient-text-glow">Stories of Change</h1>
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-medium">
+            Real stories from real people. Every journey of transformation starts with breaking silence.
+          </p>
         </div>
+      </div>
+
+      {/* Stories Content */}
+      <div className="container mx-auto px-6 py-12 lg:py-16">
         <StoriesGrid items={stories} />
       </div>
     </section>

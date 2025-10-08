@@ -2,6 +2,17 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Zoom } from 'swiper/modules';
+import { HiX } from 'react-icons/hi';
+import { FiMapPin } from 'react-icons/fi';
+import { FaQuoteLeft } from 'react-icons/fa';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/zoom';
 
 export interface StoryItem {
   id: string;
@@ -38,32 +49,41 @@ export default function StoriesGrid({ items }: StoriesGridProps) {
         {items.map((story, index) => (
           <motion.div
             key={story.id}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+            className="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-glow cursor-pointer card-hover"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             onClick={() => setSelectedStory(story)}
           >
             {/* Cover Image */}
-            <div className="relative h-48 overflow-hidden">
+            <div className="relative h-56 overflow-hidden">
               <img
                 src={story.cover.src}
                 alt={story.cover.alt}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <div className="text-sm font-medium">{story.category}</div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div className="absolute top-4 left-4">
+                <span className="px-3 py-1 gradient-primary text-white rounded-full text-xs font-semibold">
+                  {story.category}
+                </span>
+              </div>
+              <div className="absolute bottom-4 left-4 text-white flex items-center gap-1">
+                <FiMapPin className="w-4 h-4" />
+                <span className="text-sm font-medium">{story.location}</span>
               </div>
             </div>
 
             {/* Content */}
             <div className="p-6">
-              <h3 className="text-xl font-bold text-primary mb-2">{story.title}</h3>
-              <p className="text-gray-600 mb-4">{story.location}</p>
-              <blockquote className="text-gray-700 italic">
-                "{story.quote}"
-              </blockquote>
+              <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-coral transition-colors">{story.title}</h3>
+              <div className="flex gap-2 mb-3">
+                <FaQuoteLeft className="w-4 h-4 text-primary/30 flex-shrink-0 mt-1" />
+                <blockquote className="text-muted italic leading-relaxed">
+                  {story.quote}
+                </blockquote>
+              </div>
             </div>
           </motion.div>
         ))}

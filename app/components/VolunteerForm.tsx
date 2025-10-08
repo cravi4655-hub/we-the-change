@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { db } from '../utils/database';
 import { sendVolunteerEmail, isValidEmail } from '../utils/emailjs';
 
@@ -41,10 +42,12 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
 
     // Validate email
     if (!isValidEmail(formData.email)) {
-      setSubmitStatus('error');
+      toast.error('Please enter a valid email address');
       setIsSubmitting(false);
       return;
     }
+
+    const loadingToast = toast.loading('Submitting your application...');
 
     try {
       // Save to database
@@ -64,12 +67,18 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
         email: formData.email,
         phone: formData.phone,
         age: formData.age,
+        role: formData.role,
         skills: formData.skills,
+        experience: formData.experience,
         availability: formData.availability,
         motivation: formData.motivation
       });
 
       if (dbSuccess && emailSuccess) {
+        toast.success('🎉 Application submitted successfully! Welcome to the team!', {
+          id: loadingToast,
+          duration: 5000,
+        });
         setSubmitStatus('success');
         // Reset form
         setFormData({
@@ -86,10 +95,16 @@ export default function VolunteerForm({ isOpen, onClose }: VolunteerFormProps) {
         // Close form after 2 seconds
         setTimeout(() => onClose(), 2000);
       } else {
+        toast.error('Failed to submit application. Please try again.', {
+          id: loadingToast,
+        });
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Error saving volunteer application:', error);
+      toast.error('An error occurred. Please try again later.', {
+        id: loadingToast,
+      });
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

@@ -4,6 +4,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon, BanknotesIcon } from '@heroicons/react/24/outline';
+import toast from 'react-hot-toast';
 import DonateButton from '../components/DonateButton';
 import VolunteerForm from '../components/VolunteerForm';
 import { db } from '../utils/database';
@@ -30,10 +31,12 @@ export default function ContactPage() {
 
     // Validate email
     if (!isValidEmail(formData.email)) {
-      setSubmitStatus('error');
+      toast.error('Please enter a valid email address');
       setIsSubmitting(false);
       return;
     }
+
+    const loadingToast = toast.loading('Sending your message...');
 
     try {
       // Save to database
@@ -55,6 +58,10 @@ export default function ContactPage() {
       });
 
       if (dbSuccess && emailSuccess) {
+        toast.success('Message sent successfully! We\'ll get back to you soon.', {
+          id: loadingToast,
+          duration: 5000,
+        });
         setSubmitStatus('success');
         // Reset form
         setFormData({
@@ -66,10 +73,16 @@ export default function ContactPage() {
           interest: ''
         });
       } else {
+        toast.error('Failed to send message. Please try again or email us directly.', {
+          id: loadingToast,
+        });
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Error saving contact submission:', error);
+      toast.error('An error occurred. Please try again later.', {
+        id: loadingToast,
+      });
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -84,10 +97,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-mixed-vibrant-1 pattern-dots">
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-coral/5 to-teal/10"></div>
+          <section className="relative py-20 lg:py-32 overflow-hidden bg-animated-gradient">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-coral/10 to-teal/20"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -96,10 +109,10 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold gradient-text-glow mb-6">
               Contact Us
             </h1>
-            <p className="text-lg md:text-xl text-muted leading-relaxed mb-8">
+            <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 font-medium">
               Have questions about our programs? Want to get involved? 
               We'd love to hear from you. Reach out and let's start a conversation.
             </p>
@@ -423,27 +436,27 @@ export default function ContactPage() {
                 <div className="space-y-4">
                   <div>
                     <span className="text-sm font-medium text-muted">Account Holder Name:</span>
-                    <p className="text-primary font-semibold">We The Change Foundation</p>
+                    <p className="text-primary font-semibold">WE THE CHANGE TRUST</p>
                   </div>
                   
                   <div>
                     <span className="text-sm font-medium text-muted">Bank Name:</span>
-                    <p className="text-primary font-semibold">State Bank of India</p>
+                    <p className="text-primary font-semibold">AXIS BANK, CHAWRI BAZAR</p>
                   </div>
                   
                   <div>
                     <span className="text-sm font-medium text-muted">Account Number:</span>
-                    <p className="text-primary font-semibold font-mono">1234567890123456</p>
+                    <p className="text-primary font-semibold font-mono">922020045541686</p>
                   </div>
                   
                   <div>
                     <span className="text-sm font-medium text-muted">IFSC Code:</span>
-                    <p className="text-primary font-semibold font-mono">SBIN0001234</p>
+                    <p className="text-primary font-semibold font-mono">UTIB0001548</p>
                   </div>
                   
                   <div>
                     <span className="text-sm font-medium text-muted">Branch:</span>
-                    <p className="text-primary font-semibold">Mumbai Main Branch</p>
+                    <p className="text-primary font-semibold">CHAWRI BAZAR</p>
                   </div>
                   
                   <div>

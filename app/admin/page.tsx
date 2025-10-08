@@ -225,20 +225,22 @@ function DashboardContent() {
         <div className="bg-blue-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-blue-900 mb-2">Quick Actions</h3>
           <ul className="space-y-2 text-blue-800">
-            <li>• Add new success story</li>
-            <li>• Update program details</li>
-            <li>• Upload event photos</li>
-            <li>• Edit homepage slider</li>
+            <li>• Edit program icons and descriptions</li>
+            <li>• Update bank account information</li>
+            <li>• Manage homepage slider images</li>
+            <li>• Review form submissions</li>
+            <li>• Update contact details</li>
           </ul>
         </div>
         
         <div className="bg-green-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-green-900 mb-2">Recent Updates</h3>
           <ul className="space-y-2 text-green-800">
-            <li>• Updated Paint Me Red program</li>
-            <li>• Added 3 new success stories</li>
-            <li>• Uploaded event photos</li>
-            <li>• Updated contact information</li>
+            <li>• Enhanced Programs section with larger icons</li>
+            <li>• Improved typography and spacing across all pages</li>
+            <li>• Fixed bank account details (WE THE CHANGE TRUST)</li>
+            <li>• Updated CMS panel with new features</li>
+            <li>• Added better visual hierarchy and alignment</li>
           </ul>
         </div>
       </div>
@@ -677,36 +679,92 @@ function ProgramsEditor() {
       id: 'paint-me-red',
       title: '#PaintMeRed',
       summary: 'Breaking menstrual taboos through art, storytelling, and community engagement to normalize conversations about periods.',
-      description: 'A comprehensive program that uses creative arts, storytelling, and community engagement to break down menstrual taboos. Through workshops, art exhibitions, and interactive sessions, we create safe spaces for open conversations about menstruation, empowering women and girls to embrace their natural cycles with confidence and dignity.'
+      description: 'A comprehensive program that uses creative arts, storytelling, and community engagement to break down menstrual taboos. Through workshops, art exhibitions, and interactive sessions, we create safe spaces for open conversations about menstruation, empowering women and girls to embrace their natural cycles with confidence and dignity.',
+      iconType: 'art-creativity',
+      gradient: 'coral',
+      features: ['Art workshops', 'Storytelling sessions', 'Community exhibitions', 'Taboo-breaking activities']
     },
     {
       id: 'red-waste',
       title: '#RedWaste',
       summary: 'Sustainable menstrual waste management solutions promoting environmental responsibility and proper disposal practices.',
-      description: 'An environmental initiative focused on sustainable menstrual waste management. We educate communities about proper disposal methods, promote eco-friendly menstrual products, and implement waste management systems that protect both health and environment while reducing the carbon footprint of menstrual hygiene practices.'
+      description: 'An environmental initiative focused on sustainable menstrual waste management. We educate communities about proper disposal methods, promote eco-friendly menstrual products, and implement waste management systems that protect both health and environment while reducing the carbon footprint of menstrual hygiene practices.',
+      iconType: 'environmental',
+      gradient: 'teal',
+      features: ['Waste management training', 'Eco-friendly products', 'Disposal education', 'Environmental awareness']
     },
     {
       id: 'train-the-trainer',
       title: 'Train The Trainer',
       summary: 'Empowering local leaders with comprehensive training to become menstrual health advocates in their communities.',
-      description: 'A capacity-building program that trains local community leaders, educators, and healthcare workers to become menstrual health advocates. Participants receive comprehensive training on menstrual hygiene management, taboo-breaking techniques, and community engagement strategies, enabling them to lead sustainable change in their own communities.'
+      description: 'A capacity-building program that trains local community leaders, educators, and healthcare workers to become menstrual health advocates. Participants receive comprehensive training on menstrual hygiene management, taboo-breaking techniques, and community engagement strategies, enabling them to lead sustainable change in their own communities.',
+      iconType: 'education-training',
+      gradient: 'coral',
+      features: ['Leadership training', 'Community advocacy', 'Capacity building', 'Sustainable change']
     },
     {
       id: 'project-sachet',
       title: 'Project Sachet',
       summary: 'Innovative sachet-based menstrual hygiene solutions making sustainable products accessible to all communities.',
-      description: 'An innovative initiative that provides affordable, sustainable menstrual hygiene products in convenient sachet packaging. This program ensures accessibility for women in remote and underserved areas, combining affordability with environmental responsibility while maintaining high standards of hygiene and comfort.'
+      description: 'An innovative initiative that provides affordable, sustainable menstrual hygiene products in convenient sachet packaging. This program ensures accessibility for women in remote and underserved areas, combining affordability with environmental responsibility while maintaining high standards of hygiene and comfort.',
+      iconType: 'product-innovation',
+      gradient: 'teal',
+      features: ['Sachet packaging', 'Affordable products', 'Remote accessibility', 'Quality assurance']
     }
   ]);
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900">Programs Management</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-900">Programs Management</h2>
+        <div className="text-sm text-gray-600">
+          ✨ Updated with enhanced icons, better spacing, and improved typography
+        </div>
+      </div>
       
       {programs.map((program) => (
         <div key={program.id} className="bg-gray-50 rounded-lg p-6">
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">{program.title}</h3>
+          <div className="flex justify-between items-start mb-6">
+            <div className="flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                program.gradient === 'coral' ? 'bg-coral/20 text-coral' : 'bg-teal/20 text-teal'
+              }`}>
+                <div className="w-6 h-6">
+                  {program.iconType === 'art-creativity' && (
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    </svg>
+                  )}
+                  {program.iconType === 'environmental' && (
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 6h18l-2 13H5L3 6zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                      <path d="M10 11v6M14 11v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                      <path d="M4 6h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    </svg>
+                  )}
+                  {program.iconType === 'education-training' && (
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    </svg>
+                  )}
+                  {program.iconType === 'product-innovation' && (
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 6h18l-2 13H5L3 6zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                      <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    </svg>
+                  )}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{program.title}</h3>
+                <p className="text-sm text-gray-600">Gradient: {program.gradient} | Icon: {program.iconType}</p>
+              </div>
+            </div>
             <Link 
               to={`/programs/${program.id}`}
               className="text-primary hover:text-primary/80 text-sm"
@@ -715,7 +773,7 @@ function ProgramsEditor() {
             </Link>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Summary (Short description for homepage)</label>
               <textarea
@@ -734,9 +792,45 @@ function ProgramsEditor() {
               />
             </div>
 
-            <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
-              Update {program.title}
-            </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Key Features</label>
+              <div className="grid grid-cols-2 gap-2">
+                {program.features.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span className="text-sm text-gray-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Icon Type</label>
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                  <option value="art-creativity">Art & Creativity</option>
+                  <option value="environmental">Environmental</option>
+                  <option value="education-training">Education & Training</option>
+                  <option value="product-innovation">Product & Innovation</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Gradient Color</label>
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                  <option value="coral">Coral</option>
+                  <option value="teal">Teal</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <button className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+                Update {program.title}
+              </button>
+              <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:opacity-90">
+                Preview Changes
+              </button>
+            </div>
           </div>
         </div>
       ))}
@@ -1660,6 +1754,68 @@ function SettingsEditor() {
       <h2 className="text-xl font-semibold text-gray-900">Website Settings</h2>
       
       <div className="bg-gray-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Bank Account Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Account Holder Name</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              defaultValue="WE THE CHANGE TRUST"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              defaultValue="AXIS BANK, CHAWRI BAZAR"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Account Number</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary font-mono"
+              defaultValue="922020045541686"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">IFSC Code</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary font-mono"
+              defaultValue="UTIB0001548"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Branch</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              defaultValue="CHAWRI BAZAR"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              defaultValue="Current Account"
+            />
+          </div>
+        </div>
+        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-sm text-green-800">
+            ✅ <strong>Updated:</strong> Bank account details have been corrected with the proper information.
+          </p>
+        </div>
+        <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">
+          Update Bank Details
+        </button>
+      </div>
+
+      <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -1691,7 +1847,6 @@ function SettingsEditor() {
           Update Contact Info
         </button>
       </div>
-
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Social Media Links</h3>
         <div className="space-y-4">
@@ -1737,6 +1892,11 @@ function SettingsEditor() {
               defaultValue="rzp_test_YOUR_KEY_HERE"
             />
           </div>
+        </div>
+        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-800">
+            💳 <strong>Payment Integration:</strong> Razorpay is configured for secure online donations.
+          </p>
         </div>
         <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md hover:opacity-90">  
           Update Payment Settings

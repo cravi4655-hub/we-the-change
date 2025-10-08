@@ -110,12 +110,15 @@ export default function Hero({
             >
               <Link 
                 to="/contact" 
-                className="inline-flex items-center justify-center bg-primary text-white rounded-lg px-6 md:px-8 py-3 md:py-4 font-semibold text-base md:text-lg hover:bg-primary/90 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20 touch-manipulation min-h-[44px]"
+                className="inline-flex items-center justify-center gradient-primary text-white rounded-full px-8 md:px-10 py-4 md:py-5 font-bold text-base md:text-lg hover:scale-105 hover:shadow-glow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/30 touch-manipulation min-h-[44px] group"
               >
-                Join the Movement
+                <span>Join the Movement</span>
+                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
               </Link>
               
-              <DonateButton className="inline-flex items-center justify-center bg-bg-alt text-primary border-2 border-primary/30 rounded-lg px-6 md:px-8 py-3 md:py-4 font-semibold text-base md:text-lg hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/20 touch-manipulation min-h-[44px]">
+              <DonateButton className="inline-flex items-center justify-center bg-white text-primary border-2 border-primary/20 shadow-md rounded-full px-8 md:px-10 py-4 md:py-5 font-bold text-base md:text-lg hover:bg-primary hover:text-white hover:scale-105 hover:shadow-glow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/20 touch-manipulation min-h-[44px]">
                 Donate for Dignity
               </DonateButton>
             </motion.div>

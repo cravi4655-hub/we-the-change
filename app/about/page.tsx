@@ -6,10 +6,10 @@ import DonateButton from '../components/DonateButton';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-coral/5 to-teal/10"></div>
+      <section className="relative py-20 lg:py-32 overflow-hidden bg-vibrant-pink">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-coral/10 to-teal/20"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -18,10 +18,10 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold gradient-text-glow mb-6">
               About We The Change
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-700 mb-8 font-medium">
               A not-for-profit initiative established in 2021 with a vision to bring about positive social change and empower individuals through education and awareness.
             </p>
           </motion.div>
@@ -29,19 +29,19 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 lg:py-24">
+      <section className="py-20 lg:py-32 bg-vibrant-teal pattern-dots-teal">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-6">Our Mission</h2>
-              <p className="text-lg text-gray-700 mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold gradient-text-glow mb-8">Our Mission</h2>
+              <p className="text-lg text-gray-700 mb-6 leading-relaxed font-medium">
                 We firmly believe in the power of education and awareness to break barriers and transform society. Our dedicated team of passionate individuals works tirelessly to address pressing issues and dismantle the taboos and stereotypes that hinder progress.
               </p>
-              <p className="text-lg text-gray-700">
+              <p className="text-lg text-gray-700 leading-relaxed font-medium">
                 Through our various projects and campaigns, we strive to make a meaningful impact in the lives of individuals and communities.
               </p>
             </motion.div>
@@ -51,8 +51,8 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-6">Our Vision</h2>
-              <p className="text-lg text-gray-700 mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold gradient-text-glow mb-8">Our Vision</h2>
+              <p className="text-lg text-gray-700 mb-6 leading-relaxed font-medium">
                 We envision a world where all menstruators can effectively manage, understand, and embrace their bodies—regardless of geographic location or economic status. We firmly believe that this is a fundamental human right.
               </p>
               <div className="bg-teal/10 p-6 rounded-2xl">
@@ -71,23 +71,23 @@ export default function AboutPage() {
       </section>
 
       {/* Real Impact Numbers */}
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <section className="py-20 lg:py-32 bg-vibrant-purple pattern-dots-purple">
         <div className="container mx-auto px-6">
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold gradient-text-glow mb-6">
               Our Impact (2021-2025)
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-medium">
               Real numbers from our work across India and Africa
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
             {[
               { number: "85,000+", label: "Beneficiaries Served", icon: "👥", color: "text-primary" },
               { number: "385,000+", label: "Bio-compostable Pads Distributed", icon: "🩸", color: "text-coral" },

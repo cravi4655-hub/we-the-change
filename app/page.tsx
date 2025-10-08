@@ -11,7 +11,9 @@ export default function Home() {
     <>
       <ImpactSlider className="mb-8" />
       <Hero />
-      <ImpactCounters items={impactData} />
+      <div className="bg-animated-gradient text-white">
+        <ImpactCounters items={impactData} />
+      </div>
       <Programs items={programsData} />
       <Volunteers />
       <DonateCTA />

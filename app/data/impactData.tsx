@@ -82,8 +82,10 @@ export const programsData: ProgramItem[] = [
     gradient: "coral",
     learnMoreLink: "/programs/paint-me-red",
     icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+        <circle cx="12" cy="12" r="2" fill="currentColor"/>
       </svg>
     )
   },
@@ -94,8 +96,10 @@ export const programsData: ProgramItem[] = [
     gradient: "teal",
     learnMoreLink: "/programs/red-waste",
     icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3 6h18l-2 13H5L3 6zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        <path d="M10 11v6M14 11v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+        <path d="M4 6h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
       </svg>
     )
   },
@@ -106,8 +110,10 @@ export const programsData: ProgramItem[] = [
     gradient: "coral",
     learnMoreLink: "/programs/train-the-trainer",
     icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.429 3.058 1 1 0 01-.945 1.757z" />
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="none"/>
       </svg>
     )
   },
@@ -118,8 +124,10 @@ export const programsData: ProgramItem[] = [
     gradient: "teal",
     learnMoreLink: "/programs/project-sachet",
     icon: (
-      <svg fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3 6h18l-2 13H5L3 6zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+        <circle cx="12" cy="12" r="2" fill="currentColor"/>
       </svg>
     )
   }

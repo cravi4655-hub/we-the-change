@@ -1,7 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { motion } from 'framer-motion';
+import { FaQuoteLeft } from 'react-icons/fa';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 interface VolunteerItem {
   id: string;
@@ -68,69 +75,120 @@ const DEFAULT_VOLUNTEERS: VolunteerItem[] = [
   },
 ];
 
-export default function Volunteers({ items = DEFAULT_VOLUNTEERS, rotateMs = 5000 }: VolunteersProps) {
-  const visible = 3;
-  const [queue, setQueue] = useState<VolunteerItem[]>(() => [...items]);
-  const controls = useAnimation();
-
-  // Widths to ensure exactly 3 cards visible and 1 extra for sliding
-  const trackWidthPercent = ((visible + 1) / visible) * 100;
-  const cardWidthPercent = 100 / visible;
-
-  useEffect(() => {
-    let mounted = true;
-    const advance = async () => {
-      await controls.start({ x: `-${100 / visible}%`, transition: { duration: 0.7, ease: 'easeInOut' } });
-      if (!mounted) return;
-      setQueue((prev) => {
-        const [first, ...rest] = prev;
-        return [...rest, first];
-      });
-      controls.set({ x: '0%' });
-    };
-    const id = setInterval(advance, rotateMs);
-    return () => {
-      mounted = false;
-      clearInterval(id);
-    };
-  }, [controls, rotateMs, visible]);
-
+export default function Volunteers({ items = DEFAULT_VOLUNTEERS }: VolunteersProps) {
   return (
-    <section className="py-16 lg:py-24">
+    <section className="py-16 lg:py-24 bg-gradient-to-br from-bg via-bg-alt to-bg">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">Our Volunteers</h2>
-          <p className="text-muted max-w-3xl mx-auto">Meet the dedicated team powering programs on the ground.</p>
-        </div>
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold gradient-text mb-4">
+            Our Volunteers
+          </h2>
+          <p className="text-muted max-w-3xl mx-auto text-lg">
+            Meet the dedicated team powering programs on the ground.
+          </p>
+        </motion.div>
 
-        <div className="relative overflow-hidden">
-          <motion.div
-            className="flex gap-6"
-            animate={controls}
-            style={{ width: `${trackWidthPercent}%` }}
-            aria-live="polite"
-          >
-            {queue.slice(0, visible + 1).map((v, idx) => (
-              <div key={v.id + '-' + idx} className="flex-none" style={{ width: `${cardWidthPercent}%` }}>
-                <div className="rounded-2xl border border-muted/10 bg-bg-alt p-6 shadow-sm h-full">
-                  <div className="flex items-center gap-4 mb-4">
-                    <img src={v.photo} alt={v.name} width={56} height={56} className="w-14 h-14 rounded-full object-cover bg-white border border-muted/20" />
-                    <div>
-                      <div className="text-primary font-semibold">{v.name}</div>
-                      <div className="text-sm text-muted">{v.role}</div>
-                    </div>
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={24}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 24,
+            },
+          }}
+          className="pb-12"
+        >
+          {items.map((volunteer) => (
+            <SwiperSlide key={volunteer.id}>
+              <motion.div
+                className="bg-white rounded-3xl p-6 shadow-md hover:shadow-glow border border-light-gray card-hover h-full"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Photo */}
+                <div className="relative mb-5 group">
+                  <div className="w-20 h-20 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-md group-hover:border-primary/40 transition-all duration-300">
+                    <img 
+                      src={volunteer.photo} 
+                      alt={volunteer.name} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" 
+                    />
                   </div>
-                  <p className="text-sm text-text leading-relaxed">
-                    {v.description}
-                  </p>
+                  {/* Decorative circle */}
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse-slow"></div>
                 </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+
+                {/* Name & Role */}
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-bold text-primary mb-1">{volunteer.name}</h3>
+                  <p className="text-sm text-coral font-semibold">{volunteer.role}</p>
+                </div>
+
+                {/* Quote Icon */}
+                <div className="flex justify-center mb-3">
+                  <FaQuoteLeft className="w-5 h-5 text-primary/30" />
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-muted leading-relaxed text-center line-clamp-4">
+                  {volunteer.description}
+                </p>
+              </motion.div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Custom Swiper Navigation Styles */}
+        <style dangerouslySetInnerHTML={{__html: `
+          .swiper-button-next,
+          .swiper-button-prev {
+            color: #EC008C !important;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+          .swiper-button-next:after,
+          .swiper-button-prev:after {
+            font-size: 16px !important;
+            font-weight: bold;
+          }
+          .swiper-button-next:hover,
+          .swiper-button-prev:hover {
+            background: #EC008C;
+            color: white !important;
+          }
+          .swiper-pagination-bullet {
+            background: #EC008C !important;
+            opacity: 0.5;
+          }
+          .swiper-pagination-bullet-active {
+            opacity: 1 !important;
+          }
+        `}} />
       </div>
     </section>
   );
 }
-
-

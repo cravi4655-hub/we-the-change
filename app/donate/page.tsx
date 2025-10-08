@@ -16,10 +16,10 @@ export default function DonatePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-vibrant-orange pattern-dots-orange">
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-coral/5 to-teal/10"></div>
+          <section className="relative py-20 lg:py-32 overflow-hidden bg-animated-gradient">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-coral/10 to-teal/20"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -28,10 +28,10 @@ export default function DonatePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold gradient-text-glow mb-6">
               Support Our Mission
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-700 mb-8 font-medium">
               Your contribution directly supports menstrual health education, sustainable products distribution, 
               and community empowerment programs across India and Africa.
             </p>

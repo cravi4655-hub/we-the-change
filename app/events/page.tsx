@@ -6,10 +6,10 @@ import DonateButton from '../components/DonateButton';
 
 export default function EventsPage() {
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-mixed-vibrant-2 pattern-hexagons">
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-coral/5 to-teal/10"></div>
+          <section className="relative py-20 lg:py-32 overflow-hidden bg-animated-gradient">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-coral/10 to-teal/20"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -18,10 +18,10 @@ export default function EventsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold gradient-text-glow mb-6">
               Events & Workshops
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-700 mb-8 font-medium">
               Join our community events, workshops, and awareness programs across India and Africa
             </p>
           </motion.div>
@@ -29,23 +29,23 @@ export default function EventsPage() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-16 lg:py-24">
+      <section className="py-20 lg:py-32">
         <div className="container mx-auto px-6">
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold gradient-text-glow mb-6">
               Upcoming Events
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-medium">
               Join our upcoming workshops, training sessions, and community events
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-10">
             {[
               {
                 title: "Menstrual Health Workshop - Delhi",
@@ -86,7 +86,7 @@ export default function EventsPage() {
             ].map((event, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
+                className="card-enhanced card-primary hover:shadow-glow"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -123,23 +123,27 @@ export default function EventsPage() {
       </section>
 
       {/* Past Events */}
-      <section className="py-16 lg:py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
+      <section className="py-20 lg:py-32 bg-vibrant-purple pattern-triangles relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="decorative-blob blob-purple w-96 h-96 -top-48 -right-48"></div>
+        <div className="decorative-blob blob-teal w-64 h-64 -bottom-32 -left-32"></div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold gradient-text-glow mb-6">
               Past Events
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-medium">
               Highlights from our recent workshops and community events
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
               {
                 title: "Menstrual Health Workshop - Assam",
@@ -192,7 +196,7 @@ export default function EventsPage() {
             ].map((event, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                className="card-enhanced card-teal hover:shadow-glow-teal"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -209,8 +213,12 @@ export default function EventsPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 lg:py-24 bg-primary text-white">
-        <div className="container mx-auto px-6 text-center">
+      <section className="py-16 lg:py-24 bg-animated-gradient-2 text-white relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="decorative-blob blob-coral w-80 h-80 top-1/4 -left-40"></div>
+        <div className="decorative-blob blob-orange w-96 h-96 bottom-1/4 -right-40"></div>
+        
+        <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

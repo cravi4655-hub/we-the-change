@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import DonateButton from './DonateButton';
 import { db } from '../utils/database';
 import { sendDonationEmail, isValidEmail } from '../utils/emailjs';
@@ -52,6 +53,10 @@ export default function DonationForm({ isOpen, onClose }: DonationFormProps) {
       });
 
       if (dbSuccess && emailSuccess) {
+        const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
+        toast.success(`💝 Thank you for your generous donation of ₹${amount.toLocaleString()}!`, {
+          duration: 6000,
+        });
         setSubmitStatus('success');
         // Reset form
         setDonorInfo({
@@ -65,10 +70,12 @@ export default function DonationForm({ isOpen, onClose }: DonationFormProps) {
         // Close form after 3 seconds
         setTimeout(() => onClose(), 3000);
       } else {
+        toast.error('Failed to process donation. Please contact us.');
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Error saving donation:', error);
+      toast.error('An error occurred. Please try again later.');
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
